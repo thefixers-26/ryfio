@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -41,11 +41,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
     overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Exo 2', 'Orbitron', sans-serif;
   }
 }
 
@@ -71,16 +71,16 @@
     background-image: linear-gradient(135deg, hsl(var(--secondary)), hsl(30 100% 70%));
   }
   .btn-cyan {
-    @apply px-8 py-3 border border-primary text-primary tracking-widest text-sm transition-all duration-300 rounded;
-    font-family: 'Orbitron', sans-serif;
+    @apply px-6 sm:px-8 py-3 border border-primary text-primary tracking-widest text-sm transition-all duration-300 rounded;
+    font-family: 'Exo 2', 'Orbitron', sans-serif;
   }
   .btn-cyan:hover {
     @apply bg-primary text-primary-foreground;
     box-shadow: 0 0 30px hsl(var(--primary) / 0.5);
   }
   .btn-orange {
-    @apply px-8 py-3 border border-secondary text-secondary tracking-widest text-sm transition-all duration-300 rounded;
-    font-family: 'Orbitron', sans-serif;
+    @apply px-6 sm:px-8 py-3 border border-secondary text-secondary tracking-widest text-sm transition-all duration-300 rounded;
+    font-family: 'Exo 2', 'Orbitron', sans-serif;
   }
   .btn-orange:hover {
     @apply bg-secondary text-secondary-foreground;
@@ -92,7 +92,7 @@
   }
   .section-title {
     @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Exo 2', 'Orbitron', sans-serif;
   }
   .scan-line {
     position: fixed;
@@ -102,7 +102,7 @@
     background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.015) 2px, hsl(var(--primary) / 0.015) 4px);
   }
   .letter-node {
-    @apply w-20 h-24 md:w-24 md:h-28 flex flex-col items-center justify-center glass-card;
+    @apply w-14 h-[72px] sm:w-20 sm:h-24 md:w-24 md:h-28 flex flex-col items-center justify-center glass-card;
     transition: all 0.3s ease;
   }
   .letter-node:hover {
@@ -111,7 +111,7 @@
   }
   .form-input {
     @apply w-full bg-input border border-border rounded px-4 py-3 text-foreground transition-all duration-300 outline-none;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
   }
   .form-input:focus {
     @apply border-primary;

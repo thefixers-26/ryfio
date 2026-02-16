@@ -22,9 +22,6 @@ const Footer = () => (
           <Instagram size={16} />
         </a>
       </div>
-      <p className="font-display text-xs text-muted-foreground tracking-[0.2em] pt-2">
-        OPERATING FROM 2050
-      </p>
     </div>
   </footer>
 );

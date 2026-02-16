@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { sfx } from '@/hooks/useSfx';
 
 const letters = [
   { char: 'R', word: 'Resilient', color: 'text-primary' },
@@ -42,10 +43,10 @@ const HomePage = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
+    <section className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center">
       {/* Letter Nodes */}
       <motion.div
-        className="flex gap-4 md:gap-6 mb-8"
+        className="flex gap-3 sm:gap-4 md:gap-6 mb-8"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -59,7 +60,7 @@ const HomePage = () => {
             transition={{ delay: 0.2 + i * 0.15, duration: 0.5 }}
             whileHover={{ y: -8, boxShadow: '0 0 30px hsl(184 100% 50% / 0.4)' }}
           >
-            <span className={`font-display text-3xl md:text-4xl font-bold ${l.color}`}>
+            <span className={`font-display text-2xl sm:text-3xl md:text-4xl font-bold ${l.color}`}>
               {l.char}
             </span>
             <span className="text-muted-foreground text-xs mt-1 font-body">{l.word}</span>
@@ -80,7 +81,7 @@ const HomePage = () => {
 
       {/* Tagline */}
       <motion.h1
-        className="section-title text-gradient-cyan mb-4 glitch-hover"
+        className="section-title text-gradient-cyan mb-4 glitch-hover text-3xl sm:text-4xl md:text-5xl lg:text-6xl"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1.5, duration: 0.6 }}
@@ -104,10 +105,10 @@ const HomePage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 2 }}
       >
-        <Link to="/join" className="btn-cyan flex items-center gap-2 justify-center">
+        <Link to="/join" onClick={sfx.click} onMouseEnter={sfx.hover} className="btn-cyan flex items-center gap-2 justify-center min-h-[48px]">
           JOIN THE MISSION <ArrowRight size={16} />
         </Link>
-        <Link to="/contact" className="btn-orange flex items-center gap-2 justify-center">
+        <Link to="/contact" onClick={sfx.click} onMouseEnter={sfx.hover} className="btn-orange flex items-center gap-2 justify-center min-h-[48px]">
           CONTACT US
         </Link>
       </motion.div>
