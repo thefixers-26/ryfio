@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, CheckCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
+import { sfx } from '@/hooks/useSfx';
 
 const schema = z.object({
   name: z.string().trim().min(2, 'Min 2 characters').max(100),
@@ -49,10 +50,10 @@ const JoinPage = () => {
         skills: data.skills || 'Not provided',
         timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
       }, 'M-LwCs_cNASdySqmG');
-      setSuccess(true);
+      setSuccess(true); sfx.success();
       setTimeout(() => { setSuccess(false); reset(); }, 5000);
     } catch {
-      toast.error('Transmission failed. Try emailing ryfioai@gmail.com directly.');
+      toast.error('Transmission failed. Try emailing ryfioai@gmail.com directly.'); sfx.error();
     } finally {
       setSending(false);
     }

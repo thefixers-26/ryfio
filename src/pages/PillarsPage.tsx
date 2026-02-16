@@ -76,14 +76,14 @@ const PillarsPage = () => (
         {pillars.map((p, i) => (
           <motion.div
             key={p.letter}
-            className="glass-card p-8 md:p-10 text-left"
+            className="glass-card p-6 sm:p-8 md:p-10 text-left"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1, duration: 0.6 }}
           >
-            <div className="flex items-start gap-6">
-              <span className={`font-display text-5xl md:text-6xl font-bold ${p.color} opacity-40`}>
+            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+              <span className={`font-display text-4xl sm:text-5xl md:text-6xl font-bold ${p.color} opacity-40`}>
                 {p.letter}
               </span>
               <div className="flex-1">
