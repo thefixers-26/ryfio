@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -5,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Layout from "./components/Layout";
 import PageTransition from "./components/PageTransition";
+import SplashScreen from "./components/SplashScreen";
 import HomePage from "./pages/HomePage";
 import FounderPage from "./pages/FounderPage";
 import PillarsPage from "./pages/PillarsPage";
@@ -30,17 +32,30 @@ const AnimatedRoutes = () => {
   );
 };
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
-          <AnimatedRoutes />
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const [splashDone, setSplashDone] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return sessionStorage.getItem('ryfio-splash') === 'done';
+  });
+
+  const handleSplashComplete = useCallback(() => {
+    sessionStorage.setItem('ryfio-splash', 'done');
+    setSplashDone(true);
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Sonner />
+        {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
+        <BrowserRouter>
+          <Layout>
+            <AnimatedRoutes />
+          </Layout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

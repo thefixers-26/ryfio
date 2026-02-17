@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Instagram } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sfx } from '@/hooks/useSfx';
+import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { label: 'HOME', path: '/' },
@@ -29,7 +30,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-5 lg:gap-8">
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -54,12 +55,16 @@ const Navbar = () => {
           >
             <Instagram size={18} />
           </a>
+          <ThemeToggle />
         </div>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-foreground p-2" onClick={() => { setOpen(!open); sfx.click(); }}>
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile controls */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <button className="text-foreground p-2" onClick={() => { setOpen(!open); sfx.click(); }} aria-label="Toggle menu">
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
