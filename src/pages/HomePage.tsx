@@ -1,8 +1,47 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Wrench, Users, Compass, Layers } from 'lucide-react';
+import { ArrowRight, ChevronDown, Wrench, Users, Compass, Layers, Rocket, Zap, Globe, Flag } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sfx } from '@/hooks/useSfx';
+
+const roadmapPhases = [
+  {
+    phase: 'PHASE 01',
+    title: 'GENESIS',
+    period: 'Q1 2026',
+    icon: Rocket,
+    color: 'primary',
+    items: ['Launch RYFIO platform MVP', 'Build founding community of 100 solopreneurs', 'Release first AI workflow templates'],
+    status: 'active',
+  },
+  {
+    phase: 'PHASE 02',
+    title: 'EXPANSION',
+    period: 'Q2 2026',
+    icon: Zap,
+    color: 'secondary',
+    items: ['AI-powered product ideation tools', 'Mentorship matching system', 'Community collaboration features'],
+    status: 'upcoming',
+  },
+  {
+    phase: 'PHASE 03',
+    title: 'CONVERGENCE',
+    period: 'Q3–Q4 2026',
+    icon: Globe,
+    color: 'accent',
+    items: ['Global solopreneur network', 'Industry 4.0 integration toolkit', 'Automated go-to-market playbooks'],
+    status: 'upcoming',
+  },
+  {
+    phase: 'PHASE 04',
+    title: 'SINGULARITY',
+    period: '2027+',
+    icon: Flag,
+    color: 'primary',
+    items: ['Fully autonomous product launch pipeline', 'Cross-industry AI fusion platform', 'RYFIO becomes the solopreneur OS'],
+    status: 'upcoming',
+  },
+];
 
 const letters = [
   { char: 'R', word: 'Resilient', color: 'text-primary' },
@@ -195,6 +234,77 @@ const HomePage = () => {
                 <p className="text-muted-foreground text-sm font-body leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Roadmap */}
+      <section className="py-16 sm:py-24 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <p className="section-header mb-4">// TRAJECTORY</p>
+            <h2 className="section-title text-2xl sm:text-3xl md:text-4xl">
+              THE <span className="text-gradient-cyan">ROADMAP</span>
+            </h2>
+            <p className="text-muted-foreground font-body mt-4 max-w-xl mx-auto text-sm sm:text-base">
+              Our mission unfolds in phases. Each step brings solopreneurs closer to building the future.
+            </p>
+          </motion.div>
+
+          <div className="relative">
+            {/* Timeline line */}
+            <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-border" />
+
+            <div className="space-y-8 sm:space-y-12">
+              {roadmapPhases.map((phase, i) => (
+                <motion.div
+                  key={phase.phase}
+                  className="relative pl-12 sm:pl-16"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15, duration: 0.5 }}
+                >
+                  {/* Timeline dot */}
+                  <div className={`absolute left-2.5 sm:left-4 top-4 w-3 h-3 sm:w-4 sm:h-4 rounded-full border-2 ${
+                    phase.status === 'active'
+                      ? 'border-primary bg-primary animate-pulse'
+                      : 'border-muted-foreground bg-background'
+                  }`} />
+
+                  <div className={`glass-card p-5 sm:p-6 transition-all duration-300 ${
+                    phase.status === 'active' ? 'glow-cyan border-primary/40' : 'hover:glow-cyan'
+                  }`}>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3">
+                      <phase.icon className={`text-${phase.color}`} size={20} />
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                        <span className="font-mono text-xs text-muted-foreground">{phase.phase}</span>
+                        <h3 className="font-display text-base sm:text-lg tracking-wider">{phase.title}</h3>
+                      </div>
+                      <span className={`font-mono text-xs sm:ml-auto ${
+                        phase.status === 'active' ? 'text-primary' : 'text-muted-foreground'
+                      }`}>
+                        {phase.period}
+                        {phase.status === 'active' && ' ● ACTIVE'}
+                      </span>
+                    </div>
+                    <ul className="space-y-1.5 ml-0 sm:ml-9">
+                      {phase.items.map((item) => (
+                        <li key={item} className="text-muted-foreground text-sm font-body flex items-start gap-2">
+                          <span className={`text-${phase.color} mt-1 text-xs`}>▸</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
