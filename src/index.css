@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Chakra+Petch:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  .dark {
     --background: 0 0% 4%;
     --foreground: 0 0% 88%;
     --card: 0 0% 10%;
@@ -33,6 +34,31 @@
     --gunmetal: 0 0% 10%;
     --plasma: 0 0% 88%;
   }
+
+  .light {
+    --background: 220 20% 97%;
+    --foreground: 220 20% 10%;
+    --card: 220 20% 92%;
+    --card-foreground: 220 20% 10%;
+    --popover: 220 20% 92%;
+    --popover-foreground: 220 20% 10%;
+    --primary: 184 100% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 20 100% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 220 15% 88%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 277 80% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 80%;
+    --input: 220 15% 90%;
+    --ring: 184 100% 35%;
+    --void: 220 20% 97%;
+    --gunmetal: 220 20% 92%;
+    --plasma: 220 20% 10%;
+  }
 }
 
 @layer base {
@@ -45,7 +71,7 @@
     overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Exo 2', 'Orbitron', sans-serif;
+    font-family: 'Chakra Petch', 'Exo 2', 'Orbitron', sans-serif;
   }
 }
 
@@ -72,7 +98,7 @@
   }
   .btn-cyan {
     @apply px-6 sm:px-8 py-3 border border-primary text-primary tracking-widest text-sm transition-all duration-300 rounded;
-    font-family: 'Exo 2', 'Orbitron', sans-serif;
+    font-family: 'Chakra Petch', 'Exo 2', sans-serif;
   }
   .btn-cyan:hover {
     @apply bg-primary text-primary-foreground;
@@ -80,7 +106,7 @@
   }
   .btn-orange {
     @apply px-6 sm:px-8 py-3 border border-secondary text-secondary tracking-widest text-sm transition-all duration-300 rounded;
-    font-family: 'Exo 2', 'Orbitron', sans-serif;
+    font-family: 'Chakra Petch', 'Exo 2', sans-serif;
   }
   .btn-orange:hover {
     @apply bg-secondary text-secondary-foreground;
@@ -91,8 +117,8 @@
     font-family: 'JetBrains Mono', monospace;
   }
   .section-title {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider;
-    font-family: 'Exo 2', 'Orbitron', sans-serif;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider;
+    font-family: 'Chakra Petch', 'Exo 2', sans-serif;
   }
   .scan-line {
     position: fixed;
@@ -101,8 +127,11 @@
     z-index: 50;
     background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.015) 2px, hsl(var(--primary) / 0.015) 4px);
   }
+  .light .scan-line {
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.03) 2px, hsl(var(--primary) / 0.03) 4px);
+  }
   .letter-node {
-    @apply w-14 h-[72px] sm:w-20 sm:h-24 md:w-24 md:h-28 flex flex-col items-center justify-center glass-card;
+    @apply w-12 h-16 sm:w-20 sm:h-24 md:w-24 md:h-28 flex flex-col items-center justify-center glass-card;
     transition: all 0.3s ease;
   }
   .letter-node:hover {
@@ -110,7 +139,7 @@
     transform: translateY(-8px);
   }
   .form-input {
-    @apply w-full bg-input border border-border rounded px-4 py-3 text-foreground transition-all duration-300 outline-none;
+    @apply w-full bg-input border border-border rounded px-4 py-3 text-foreground transition-all duration-300 outline-none text-sm sm:text-base;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
   }
   .form-input:focus {
@@ -120,6 +149,9 @@
   .form-label {
     @apply text-xs tracking-[0.2em] uppercase text-primary mb-2 block;
     font-family: 'JetBrains Mono', monospace;
+  }
+  .font-display {
+    font-family: 'Chakra Petch', 'Exo 2', 'Orbitron', sans-serif;
   }
 }
 

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle, Users } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
 import { sfx } from '@/hooks/useSfx';
@@ -60,7 +60,7 @@ const JoinPage = () => {
   };
 
   return (
-    <section className="min-h-screen py-24 px-4">
+    <section className="min-h-screen py-20 sm:py-24 px-4">
       <div className="max-w-2xl mx-auto text-center">
         <motion.p className="section-header" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           // RECRUITMENT PROTOCOL
@@ -74,7 +74,7 @@ const JoinPage = () => {
           JOIN THE MISSION
         </motion.h1>
         <motion.p
-          className="text-muted-foreground mt-4 mb-12 font-body"
+          className="text-muted-foreground mt-4 mb-8 font-body text-sm sm:text-base px-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
@@ -82,16 +82,35 @@ const JoinPage = () => {
           No data stored. Privacy-first transmission via EmailJS.
         </motion.p>
 
+        {/* Join the core team CTA */}
+        <motion.div
+          className="glass-card p-6 sm:p-8 mb-10 text-left glow-cyan"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Users className="text-primary" size={24} />
+            <h2 className="font-display text-sm sm:text-base tracking-[0.12em] text-primary">JOIN THE CORE TEAM</h2>
+          </div>
+          <p className="text-muted-foreground font-body text-sm leading-relaxed mb-3">
+            We're looking for early builders who believe in empowering solopreneurs — across AI, product, design, and community.
+          </p>
+          <p className="text-muted-foreground font-body text-sm leading-relaxed">
+            If you want to build RYFIO with us (part‑time, internship, or co‑founder‑track), tell us who you are, what you've built, and how you want to help.
+          </p>
+        </motion.div>
+
         <AnimatePresence>
           {success && (
             <motion.div
-              className="glass-card glow-cyan p-8 mb-8"
+              className="glass-card glow-cyan p-6 sm:p-8 mb-8"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
             >
               <CheckCircle className="text-primary mx-auto mb-4" size={48} />
-              <h2 className="font-display text-xl tracking-wider text-primary mb-2">TRANSMISSION COMPLETE</h2>
+              <h2 className="font-display text-lg sm:text-xl tracking-wider text-primary mb-2">TRANSMISSION COMPLETE</h2>
               <p className="text-muted-foreground text-sm">✓ Application sent successfully</p>
               <p className="text-muted-foreground text-sm">✓ Founder will review and contact you via email</p>
               <p className="text-muted-foreground text-sm mt-2">No data stored. Privacy maintained.</p>
@@ -101,11 +120,11 @@ const JoinPage = () => {
 
         {!success && (
           <motion.form
-            className="glass-card p-8 text-left space-y-6"
+            className="glass-card p-5 sm:p-8 text-left space-y-5 sm:space-y-6"
             onSubmit={handleSubmit(onSubmit)}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.6 }}
           >
             {/* Name */}
             <div>
@@ -141,7 +160,7 @@ const JoinPage = () => {
             {/* Experience */}
             <div>
               <label className="form-label">Experience *</label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {experiences.map(e => (
                   <label key={e} className="glass-card p-3 flex items-center gap-2 cursor-pointer hover:border-primary transition-colors">
                     <input type="radio" value={e} {...register('experience')} className="accent-primary" />
@@ -155,7 +174,7 @@ const JoinPage = () => {
             {/* Availability */}
             <div>
               <label className="form-label">Availability *</label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {availabilities.map(a => (
                   <label key={a} className="glass-card p-3 flex items-center gap-2 cursor-pointer hover:border-primary transition-colors">
                     <input type="radio" value={a} {...register('availability')} className="accent-primary" />
@@ -194,7 +213,7 @@ const JoinPage = () => {
             <button
               type="submit"
               disabled={sending}
-              className="btn-cyan w-full flex items-center justify-center gap-2 disabled:opacity-50"
+              className="btn-cyan w-full flex items-center justify-center gap-2 disabled:opacity-50 min-h-[48px]"
             >
               {sending ? (
                 <span className="animate-pulse">TRANSMITTING...</span>
