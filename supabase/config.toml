@@ -1,1 +1,4 @@
 project_id = "ralwupayvyhfbbnvzdxy"
+
+[functions.visitor-count]
+verify_jwt = false
