@@ -6,8 +6,8 @@ const Footer = () => (
       <p className="font-mono text-[10px] sm:text-xs text-muted-foreground tracking-wider">
         © 2026 RYFIO — RESILIENT YIELD FUSION INTELLIGENT OPERATIONS
       </p>
-      <p className="font-mono text-[10px] sm:text-xs text-muted-foreground tracking-wider">
-        BUILT IN PUBLIC FROM COIMBATORE, TAMIL NADU, INDIA 🇮🇳
+      <p className="font-mono text-[10px] sm:text-xs text-muted-foreground tracking-wider flex items-center justify-center gap-1">
+        BUILT IN PUBLIC FROM COIMBATORE, TN, INDIA 🇮🇳
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
         <a href="mailto:ryfioai@gmail.com" className="text-xs text-primary font-mono hover:underline">
