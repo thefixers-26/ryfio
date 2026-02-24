@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Chakra+Petch:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,57 +7,61 @@
 @layer base {
   :root,
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 88%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 88%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 88%;
-    --primary: 184 100% 50%;
-    --primary-foreground: 0 0% 4%;
-    --secondary: 20 100% 60%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 277 100% 41%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 222 60% 3%;
+    --foreground: 225 30% 96%;
+    --card: 222 50% 6%;
+    --card-foreground: 225 30% 96%;
+    --popover: 222 50% 6%;
+    --popover-foreground: 225 30% 96%;
+    --primary: 186 100% 56%;
+    --primary-foreground: 222 60% 3%;
+    --secondary: 186 60% 30%;
+    --secondary-foreground: 225 30% 96%;
+    --muted: 222 30% 12%;
+    --muted-foreground: 222 15% 55%;
+    --accent: 186 80% 45%;
+    --accent-foreground: 222 60% 3%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 184 40% 20%;
-    --input: 0 0% 15%;
-    --ring: 184 100% 50%;
+    --border: 222 30% 14%;
+    --input: 222 30% 10%;
+    --ring: 186 100% 56%;
     --radius: 0.5rem;
-    --cyan: 184 100% 50%;
-    --orange: 20 100% 60%;
-    --purple: 277 100% 41%;
-    --void: 0 0% 4%;
-    --gunmetal: 0 0% 10%;
-    --plasma: 0 0% 88%;
+
+    /* Surface system */
+    --surface: 222 50% 6%;
+    --surface-border: 222 25% 16%;
+    --surface-hover: 222 40% 9%;
+
+    /* Accent glow */
+    --glow: 186 100% 56%;
   }
 
   .light {
     --background: 220 20% 97%;
-    --foreground: 220 20% 10%;
-    --card: 220 20% 92%;
-    --card-foreground: 220 20% 10%;
-    --popover: 220 20% 92%;
-    --popover-foreground: 220 20% 10%;
-    --primary: 184 100% 35%;
+    --foreground: 222 40% 8%;
+    --card: 220 20% 93%;
+    --card-foreground: 222 40% 8%;
+    --popover: 220 20% 93%;
+    --popover-foreground: 222 40% 8%;
+    --primary: 186 100% 35%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 20 100% 50%;
+    --secondary: 186 40% 50%;
     --secondary-foreground: 0 0% 100%;
     --muted: 220 15% 88%;
-    --muted-foreground: 220 10% 40%;
-    --accent: 277 80% 45%;
+    --muted-foreground: 222 10% 40%;
+    --accent: 186 80% 40%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 50%;
+    --destructive: 0 84% 50%;
     --destructive-foreground: 0 0% 100%;
-    --border: 220 15% 80%;
+    --border: 220 15% 82%;
     --input: 220 15% 90%;
-    --ring: 184 100% 35%;
-    --void: 220 20% 97%;
-    --gunmetal: 220 20% 92%;
-    --plasma: 220 20% 10%;
+    --ring: 186 100% 35%;
+
+    --surface: 220 20% 93%;
+    --surface-border: 220 15% 80%;
+    --surface-hover: 220 18% 89%;
+    --glow: 186 100% 35%;
   }
 }
 
@@ -67,69 +71,98 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    font-family: 'Inter', 'Space Grotesk', sans-serif;
     overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Chakra Petch', 'Exo 2', 'Orbitron', sans-serif;
+    font-family: 'Sora', 'Space Grotesk', sans-serif;
   }
 }
 
 @layer components {
+  /* ─── Surface card system ─── */
   .glass-card {
-    @apply bg-card/60 backdrop-blur-xl border border-border rounded-lg;
+    background: hsl(var(--surface));
+    border: 1px solid hsl(var(--surface-border));
+    border-radius: 0.75rem;
+    backdrop-filter: blur(12px);
   }
+  .glass-card:hover {
+    border-color: hsl(var(--primary) / 0.25);
+  }
+
+  /* ─── Glow effects (single accent) ─── */
   .glow-cyan {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3), 0 0 60px hsl(var(--primary) / 0.1);
+    box-shadow: 0 0 20px hsl(var(--glow) / 0.2), 0 0 60px hsl(var(--glow) / 0.06);
   }
-  .glow-orange {
-    box-shadow: 0 0 20px hsl(var(--secondary) / 0.3), 0 0 60px hsl(var(--secondary) / 0.1);
+  .glow-subtle {
+    box-shadow: 0 0 12px hsl(var(--glow) / 0.1);
   }
-  .glow-purple {
-    box-shadow: 0 0 20px hsl(var(--accent) / 0.3), 0 0 60px hsl(var(--accent) / 0.1);
-  }
+
+  /* ─── Text gradients ─── */
   .text-gradient-cyan {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(184 100% 70%));
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(186 80% 72%));
   }
-  .text-gradient-orange {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--secondary)), hsl(30 100% 70%));
+
+  /* ─── Buttons: pill-shaped with gradient ─── */
+  .btn-primary {
+    @apply px-7 py-3.5 rounded-full text-sm font-semibold tracking-wider transition-all duration-300;
+    font-family: 'Sora', sans-serif;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(210 80% 55%));
+    color: hsl(var(--primary-foreground));
+    border: 1px solid hsl(var(--primary) / 0.4);
   }
-  .btn-cyan {
-    @apply px-6 sm:px-8 py-3 border border-primary text-primary tracking-widest text-sm transition-all duration-300 rounded;
-    font-family: 'Chakra Petch', 'Exo 2', sans-serif;
+  .btn-primary:hover {
+    box-shadow: 0 0 24px hsl(var(--glow) / 0.4), 0 4px 20px hsl(var(--glow) / 0.15);
+    transform: translateY(-1px);
   }
-  .btn-cyan:hover {
-    @apply bg-primary text-primary-foreground;
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.5);
+  .btn-secondary {
+    @apply px-7 py-3.5 rounded-full text-sm font-semibold tracking-wider transition-all duration-300;
+    font-family: 'Sora', sans-serif;
+    background: transparent;
+    color: hsl(var(--primary));
+    border: 1.5px solid hsl(var(--primary) / 0.4);
   }
-  .btn-orange {
-    @apply px-6 sm:px-8 py-3 border border-secondary text-secondary tracking-widest text-sm transition-all duration-300 rounded;
-    font-family: 'Chakra Petch', 'Exo 2', sans-serif;
+  .btn-secondary:hover {
+    background: hsl(var(--primary) / 0.08);
+    border-color: hsl(var(--primary) / 0.7);
+    box-shadow: 0 0 16px hsl(var(--glow) / 0.15);
   }
-  .btn-orange:hover {
-    @apply bg-secondary text-secondary-foreground;
-    box-shadow: 0 0 30px hsl(var(--secondary) / 0.5);
-  }
-  .section-header {
-    @apply text-secondary text-sm tracking-[0.3em] uppercase;
+
+  /* Legacy button compat */
+  .btn-cyan { @apply btn-primary; }
+  .btn-orange { @apply btn-secondary; }
+
+  /* ─── Section labels (mono tags) ─── */
+  .section-label {
+    @apply text-xs tracking-[0.3em] uppercase;
     font-family: 'JetBrains Mono', monospace;
+    color: hsl(var(--primary));
   }
+  /* Legacy compat */
+  .section-header { @apply section-label; }
+
+  /* ─── Section title ─── */
   .section-title {
-    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-wider;
-    font-family: 'Chakra Petch', 'Exo 2', sans-serif;
+    @apply text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide;
+    font-family: 'Sora', 'Space Grotesk', sans-serif;
+    letter-spacing: -0.01em;
   }
+
+  /* ─── Scan line overlay ─── */
   .scan-line {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     pointer-events: none;
     z-index: 50;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.015) 2px, hsl(var(--primary) / 0.015) 4px);
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.012) 2px, hsl(var(--primary) / 0.012) 4px);
   }
   .light .scan-line {
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.03) 2px, hsl(var(--primary) / 0.03) 4px);
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, hsl(var(--primary) / 0.02) 2px, hsl(var(--primary) / 0.02) 4px);
   }
+
+  /* ─── Letter nodes ─── */
   .letter-node {
     @apply w-12 h-16 sm:w-20 sm:h-24 md:w-24 md:h-28 flex flex-col items-center justify-center glass-card;
     transition: all 0.3s ease;
@@ -137,34 +170,94 @@
   .letter-node:hover {
     @apply glow-cyan;
     transform: translateY(-8px);
+    border-color: hsl(var(--primary) / 0.5);
   }
+
+  /* ─── Form ─── */
   .form-input {
-    @apply w-full bg-input border border-border rounded px-4 py-3 text-foreground transition-all duration-300 outline-none text-sm sm:text-base;
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    @apply w-full bg-input border border-border rounded-lg px-4 py-3 text-foreground transition-all duration-300 outline-none text-sm sm:text-base;
+    font-family: 'Inter', sans-serif;
   }
   .form-input:focus {
-    @apply border-primary;
-    box-shadow: 0 0 15px hsl(var(--primary) / 0.2);
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.15);
   }
   .form-label {
-    @apply text-xs tracking-[0.2em] uppercase text-primary mb-2 block;
+    @apply text-xs tracking-[0.2em] uppercase mb-2 block;
+    font-family: 'JetBrains Mono', monospace;
+    color: hsl(var(--primary));
+  }
+
+  /* ─── Font utilities ─── */
+  .font-display {
+    font-family: 'Sora', 'Space Grotesk', sans-serif;
+  }
+  .font-body {
+    font-family: 'Inter', 'Space Grotesk', sans-serif;
+  }
+  .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }
-  .font-display {
-    font-family: 'Chakra Petch', 'Exo 2', 'Orbitron', sans-serif;
+
+  /* ─── Badge ─── */
+  .tag-badge {
+    @apply text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full border;
+    color: hsl(var(--primary));
+    border-color: hsl(var(--primary) / 0.3);
+    background: hsl(var(--primary) / 0.08);
+  }
+
+  /* ─── Content container ─── */
+  .content-narrow {
+    @apply max-w-[840px] mx-auto;
+  }
+  .content-wide {
+    @apply max-w-5xl mx-auto;
   }
 }
 
+/* ─── Glitch hover ─── */
 @keyframes glitch {
-  0% { text-shadow: 2px 0 hsl(var(--primary)), -2px 0 hsl(var(--secondary)); }
-  25% { text-shadow: -2px 0 hsl(var(--primary)), 2px 0 hsl(var(--secondary)); }
-  50% { text-shadow: 2px 2px hsl(var(--primary)), -2px -2px hsl(var(--secondary)); }
-  75% { text-shadow: -2px 2px hsl(var(--primary)), 2px -2px hsl(var(--secondary)); }
-  100% { text-shadow: 2px 0 hsl(var(--primary)), -2px 0 hsl(var(--secondary)); }
+  0% { text-shadow: 2px 0 hsl(var(--primary)), -2px 0 hsl(186 60% 70%); }
+  25% { text-shadow: -2px 0 hsl(var(--primary)), 2px 0 hsl(186 60% 70%); }
+  50% { text-shadow: 2px 2px hsl(var(--primary)), -2px -2px hsl(186 60% 70%); }
+  75% { text-shadow: -2px 2px hsl(var(--primary)), 2px -2px hsl(186 60% 70%); }
+  100% { text-shadow: 2px 0 hsl(var(--primary)), -2px 0 hsl(186 60% 70%); }
 }
-
 .glitch-hover:hover {
   animation: glitch 0.3s ease infinite;
+}
+
+/* ─── Blink colon for clock ─── */
+@keyframes blink-colon {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.blink-colon {
+  animation: blink-colon 1s step-end infinite;
+}
+
+/* ─── Scan sweep for button hover ─── */
+@keyframes scan-sweep {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.15), transparent);
+  transition: none;
+}
+.btn-primary:hover::after {
+  animation: scan-sweep 0.6s ease-out;
 }
 
 #particle-canvas {
