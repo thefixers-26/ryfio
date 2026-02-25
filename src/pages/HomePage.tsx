@@ -1,6 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight, ChevronDown, Wrench, Users, Compass, Layers, Rocket, Zap, Globe, Flag, Activity, Quote, Gauge, Clock, UserCircle } from 'lucide-react';
+import {
+  ArrowRight, ChevronDown, Wrench, Users, Compass, Layers,
+  Rocket, Zap, Globe, Flag, Gauge, Quote, Clock, UserCircle,
+  Package, FileText, BookOpen, Radio, TrendingUp, Cpu, BadgeCheck, Sparkles,
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sfx } from '@/hooks/useSfx';
 import { supabase } from '@/integrations/supabase/client';
@@ -35,7 +39,8 @@ const useCountUp = (target: number, duration = 2000) => {
   return { count, ref };
 };
 
-/* ── Data ── */
+/* ══════════ DATA ══════════ */
+
 const letters = [
   { char: 'R', word: 'Resilient', color: 'text-primary' },
   { char: 'Y', word: 'Yield', color: 'text-primary' },
@@ -46,32 +51,83 @@ const letters = [
 
 const helpBullets = [
   { icon: Wrench, title: 'Shared Resources', subtitle: 'RESOURCE CACHE', desc: 'Curated tools, templates, and AI workflows so you never start from zero.', outcome: 'Ship v1 in under 30 days' },
-  { icon: Users, title: 'Build Together', subtitle: 'SQUAD LINK', desc: 'Find collaborators, accountability partners, and mentors while staying independent.', outcome: 'Never build alone again' },
-  { icon: Compass, title: 'Trend-Aligned', subtitle: 'SIGNAL SCAN', desc: 'Guidance rooted in current industry trends — AI, automation, SaaS, Industry 4.0.', outcome: 'Spot market gaps early' },
-  { icon: Layers, title: 'End-to-End Support', subtitle: 'OPS CONTROL', desc: 'From idea to launch, we help you design, build, and operate your products.', outcome: 'Idea → revenue, guided' },
+  { icon: Users, title: 'Build Together', subtitle: 'SQUAD LINK', desc: 'Find collaborators, accountability partners, and mentors — while staying independent.', outcome: 'Never build alone again' },
+  { icon: Compass, title: 'Trend-Aligned', subtitle: 'SIGNAL SCAN', desc: 'Ongoing guidance rooted in current AI, automation, SaaS, and Industry 4.0 trends.', outcome: 'Spot market gaps early' },
+  { icon: Layers, title: 'End-to-End Support', subtitle: 'OPS CONTROL', desc: 'From idea to launch and ongoing operations — we help you design, build, and operate.', outcome: 'Idea → revenue, guided' },
 ];
 
+/* ── Product Bay data ── */
+const products = [
+  {
+    name: 'RFQ AutoPilot',
+    tag: 'MANUFACTURING',
+    builtBy: 'RYFIO',
+    desc: 'AI agent that automates request-for-quote workflows for small manufacturers and consultancies.',
+    metric: '10× faster RFQ response, 0 additional hires',
+    status: 'ACTIVE',
+    isNew: true,
+  },
+  {
+    name: 'CreatorDash',
+    tag: 'CREATOR ECONOMY',
+    builtBy: 'WITH RYFIO',
+    desc: 'Analytics SaaS for content creators — from signup to revenue insights in a single dashboard.',
+    metric: 'First 10 paying users in 48 hours',
+    status: 'ACTIVE',
+    isNew: true,
+  },
+  {
+    name: 'PredictiveOps',
+    tag: 'INDUSTRY 4.0',
+    builtBy: 'RYFIO',
+    desc: 'IoT monitoring and predictive maintenance bot for small factories using AI playbooks.',
+    metric: 'Pilot customers before writing backend code',
+    status: 'BETA',
+    isNew: false,
+  },
+  {
+    name: 'HireSignal',
+    tag: 'RECRUITING',
+    builtBy: 'WITH RYFIO',
+    desc: 'AI-powered candidate screening pipeline that automates 80% of initial outreach and filtering.',
+    metric: '5× faster shortlisting, 60% recruiter time saved',
+    status: 'INBOUND',
+    isNew: false,
+  },
+];
+
+const productStatusStyles: Record<string, string> = {
+  ACTIVE: 'bg-primary/15 text-primary border-primary/40',
+  BETA: 'bg-accent/15 text-accent border-accent/40',
+  INBOUND: 'bg-muted text-muted-foreground border-border',
+};
+
+/* ── Mission Logs (Use Cases) ── */
 const useCases = [
   {
     title: 'AI Agent for RFQ Automation',
     industry: 'MANUFACTURING',
+    who: 'Solo consultant',
     metric: '10× faster RFQ response, 0 additional hires',
-    log: 'Solo consultant deploys an AI agent that handles request-for-quote workflows for a one-person factory consultancy.',
+    log: 'Deployed an AI agent that handles request-for-quote workflows for a one-person factory consultancy — from inbound RFQ to pricing in minutes.',
   },
   {
     title: 'SaaS Dashboard in 48 Hours',
     industry: 'CREATOR ECONOMY',
+    who: 'Indie hacker',
     metric: 'First 10 paying users in 48 hours',
-    log: 'Indie hacker ships a full analytics SaaS for content creators using RYFIO templates — idea to revenue in one weekend.',
+    log: 'Shipped a full analytics SaaS for content creators using RYFIO templates — idea to revenue in one weekend.',
   },
   {
     title: 'Predictive Maintenance Bot',
     industry: 'INDUSTRY 4.0',
+    who: 'Solopreneur',
     metric: 'Pilot customers before writing backend code',
-    log: 'Solopreneur builds an IoT monitoring product for small factories using AI playbooks — lands pilots before a single line of backend code.',
+    log: 'Built an IoT monitoring product for small factories using AI playbooks — landed pilots before a single line of backend code.',
   },
 ];
 
+/* ── Testimonials ── */
 const testimonials = [
   {
     name: 'OPERATOR_01',
@@ -93,6 +149,35 @@ const testimonials = [
   },
 ];
 
+/* ── Signal Archive (Blog) ── */
+const blogPosts = [
+  {
+    title: 'How to Ship an AI SaaS in 30 Days as a Solo Founder',
+    summary: 'A step-by-step playbook from idea validation to first paying customers — no team required.',
+    category: 'PLAYBOOK',
+    icon: BookOpen,
+  },
+  {
+    title: 'Inside RFQ AutoPilot: Building AI for Manufacturing',
+    summary: 'Deep dive into how a solo consultant automated an entire quoting pipeline with AI agents.',
+    category: 'CASE LOG',
+    icon: FileText,
+  },
+  {
+    title: 'AI Trends Q1 2026: What Solo Operators Should Watch',
+    summary: 'The latest shifts in LLMs, automation tooling, and Industry 4.0 — and what they mean for your next product.',
+    category: 'SIGNAL SCAN',
+    icon: Radio,
+  },
+];
+
+const blogCategoryStyles: Record<string, string> = {
+  PLAYBOOK: 'bg-primary/10 text-primary border-primary/30',
+  'CASE LOG': 'bg-accent/10 text-accent border-accent/30',
+  'SIGNAL SCAN': 'bg-secondary/15 text-secondary border-secondary/30',
+};
+
+/* ── Roadmap ── */
 const roadmapPhases = [
   {
     phase: 'PHASE 01', title: 'GENESIS', period: 'Q1 2026', icon: Rocket,
@@ -122,6 +207,8 @@ const statusStyles: Record<string, string> = {
   PLANNED: 'bg-muted text-muted-foreground border-border',
 };
 
+/* ══════════ COMPONENT ══════════ */
+
 const HomePage = () => {
   const [typed, setTyped] = useState('');
   const [time, setTime] = useState('');
@@ -134,7 +221,6 @@ const HomePage = () => {
   useEffect(() => {
     const key = 'ryfio-counted';
     const alreadyCounted = sessionStorage.getItem(key);
-
     const fetchCount = async () => {
       try {
         const res = await supabase.functions.invoke('visitor-count', {
@@ -145,7 +231,7 @@ const HomePage = () => {
           if (!alreadyCounted) sessionStorage.setItem(key, '1');
         }
       } catch {
-        setVisitorCount(1276); // fallback
+        setVisitorCount(1276);
       }
     };
     fetchCount();
@@ -180,7 +266,6 @@ const HomePage = () => {
     <>
       {/* ═══ HERO ═══ */}
       <section className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 text-center relative">
-        {/* Radial glow behind hero */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-[600px] h-[600px] rounded-full opacity-20"
             style={{ background: 'radial-gradient(circle, hsl(186 100% 56% / 0.15), transparent 70%)' }} />
@@ -200,25 +285,21 @@ const HomePage = () => {
           ))}
         </motion.div>
 
-        {/* Typing subtitle */}
         <motion.p className="font-mono text-xs sm:text-sm text-muted-foreground tracking-wider mb-6 px-2"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }}>
           {typed}<span className="animate-pulse">|</span>
         </motion.p>
 
-        {/* H1 headline */}
         <motion.h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold text-gradient-cyan mb-3 glitch-hover leading-tight"
           initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.3, duration: 0.6 }}>
           BUILD SERIOUS AI PRODUCTS
         </motion.h1>
 
-        {/* Subheading */}
         <motion.p className="font-display text-base sm:text-lg md:text-xl text-foreground/70 tracking-wide mb-2"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
           AS A SINGLE FOUNDER
         </motion.p>
 
-        {/* Industry sub-line */}
         <motion.p className="text-muted-foreground text-sm sm:text-base mb-8 font-body content-narrow px-4"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7 }}>
           For solo operators building AI‑driven products in manufacturing, SaaS, automation, and the creator economy.
@@ -237,7 +318,6 @@ const HomePage = () => {
           </Link>
         </motion.div>
 
-        {/* Sub-CTA line */}
         <motion.p className="text-muted-foreground text-xs font-mono tracking-wider mb-8"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.1 }}>
           Apply to join the next operator batch
@@ -246,7 +326,6 @@ const HomePage = () => {
         {/* Telemetry strip */}
         <motion.div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 mb-8"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2 }}>
-          {/* Visitor counter */}
           <div ref={counterRef}
             className="glass-card px-5 py-3 flex items-center gap-3 transition-all duration-300 hover:glow-subtle">
             <span className="relative flex h-2.5 w-2.5">
@@ -263,7 +342,6 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* System clock with blinking colon */}
           <div className="glass-card px-4 py-2.5 flex items-center gap-3 text-xs font-mono text-muted-foreground">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span>TN, INDIA — </span>
@@ -273,7 +351,6 @@ const HomePage = () => {
           </div>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div className="absolute bottom-8" animate={{ y: [0, 8, 0] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
           <ChevronDown className="text-muted-foreground/50" size={24} />
         </motion.div>
@@ -284,7 +361,7 @@ const HomePage = () => {
         <div className="content-narrow px-4">
           <motion.p className="text-center font-mono text-[10px] sm:text-xs text-muted-foreground tracking-[0.2em] uppercase"
             {...fadeUp()}>
-            For solo operators in: <span className="text-primary">Manufacturing</span> · <span className="text-primary/70">SaaS</span> · <span className="text-primary">Automation</span> · <span className="text-primary/70">Recruiting</span> · <span className="text-primary">Creator Economy</span> · <span className="text-primary/70">Finance</span>
+            For solo operators in: <span className="text-primary">Manufacturing</span> · <span className="text-primary/70">SaaS</span> · <span className="text-primary">Automation</span> · <span className="text-primary/70">Recruiting</span> · <span className="text-primary">Creator Economy</span> · <span className="text-primary/70">Industry 4.0</span>
           </motion.p>
         </div>
       </section>
@@ -298,10 +375,10 @@ const HomePage = () => {
               WHAT IS RYFIO?
             </h2>
             <p className="text-muted-foreground font-body leading-relaxed mb-3 text-sm sm:text-base">
-              <span className="text-primary font-semibold">RYFIO</span> (Resilient Yield Fusion Intelligent Operations) is a platform and community for solopreneurs who want to build serious, end‑to‑end AI products across modern industries — from manufacturing and operations to SaaS, creator tools, and automation.
+              <span className="text-primary font-semibold">RYFIO</span> (Resilient Yield Fusion Intelligent Operations) is a platform and community for solopreneurs who want to build serious, end‑to‑end AI products — not side projects — across manufacturing, SaaS, creator tools, automation, and Industry 4.0.
             </p>
             <p className="text-muted-foreground font-body leading-relaxed text-sm sm:text-base">
-              We bring solo founders, creators, and indie hackers together, give them resources, playbooks, and support, and help them ship real products — not just side projects.
+              We give you the resources, playbooks, support, and a clear path from <span className="text-primary">idea → revenue</span>. Whether you're launching your first AI product or scaling your operations, RYFIO is your command deck.
             </p>
           </motion.div>
         </div>
@@ -338,6 +415,54 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* ═══ PRODUCT BAY ═══ */}
+      <section className="py-16 sm:py-20 px-4">
+        <div className="content-wide">
+          <motion.div className="text-center mb-10" {...fadeUp()}>
+            <p className="section-label mb-3">// PRODUCT BAY</p>
+            <h2 className="font-display text-xl sm:text-2xl md:text-[30px] tracking-wide mb-3">
+              PRODUCTS <span className="text-primary">WE BUILD & LAUNCH</span>
+            </h2>
+            <p className="text-muted-foreground font-body text-sm content-narrow mx-auto">
+              RYFIO builds its own AI products <em>and</em> helps business owners launch theirs. Every product here was built by a solo operator.
+            </p>
+          </motion.div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {products.map((p, i) => (
+              <motion.div key={p.name}
+                className="glass-card p-5 sm:p-6 group hover:glow-subtle transition-all duration-300 relative"
+                {...fadeUp(i * 0.08)}>
+                {/* New badge */}
+                {p.isNew && (
+                  <span className="absolute top-3 right-3 flex items-center gap-1 bg-primary/15 text-primary text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full border border-primary/30">
+                    <Sparkles size={10} /> NEW
+                  </span>
+                )}
+                {/* Tags row */}
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                  <span className="tag-badge">{p.tag}</span>
+                  <span className={`text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full border ${productStatusStyles[p.status]}`}>
+                    {p.status}
+                  </span>
+                </div>
+                {/* Built by label */}
+                <p className="font-mono text-[10px] text-muted-foreground tracking-widest mb-1">
+                  {p.builtBy === 'RYFIO' ? '▸ BUILT BY RYFIO' : '▸ BUILT WITH RYFIO'}
+                </p>
+                <h3 className="font-display text-base sm:text-lg tracking-wide mb-2 text-foreground group-hover:text-primary transition-colors">
+                  {p.name}
+                </h3>
+                <p className="text-muted-foreground text-sm font-body leading-relaxed mb-3">{p.desc}</p>
+                <div className="flex items-center gap-1.5 pt-2 border-t border-border/50">
+                  <Gauge size={12} className="text-primary" />
+                  <p className="font-mono text-[11px] text-primary/80 tracking-wide">{p.metric}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ═══ MISSION LOGS ═══ */}
       <section className="py-16 sm:py-20 px-4">
         <div className="content-wide">
@@ -346,6 +471,9 @@ const HomePage = () => {
             <h2 className="font-display text-xl sm:text-2xl md:text-[30px] tracking-wide">
               REAL <span className="text-primary">USE CASES</span>
             </h2>
+            <p className="text-muted-foreground font-body text-sm mt-2 content-narrow mx-auto">
+              Concrete, outcome-focused examples of what solopreneurs built using RYFIO.
+            </p>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-4">
             {useCases.map((uc, i) => (
@@ -355,6 +483,7 @@ const HomePage = () => {
                 <div className="flex items-center gap-2 mb-3">
                   <span className="tag-badge">{uc.industry}</span>
                 </div>
+                <p className="font-mono text-[10px] text-muted-foreground tracking-widest mb-1">▸ {uc.who}</p>
                 <h3 className="font-display text-sm tracking-wide mb-2 text-foreground">{uc.title}</h3>
                 <p className="text-muted-foreground text-xs font-body leading-relaxed mb-3">{uc.log}</p>
                 <div className="flex items-center gap-1.5 pt-2 border-t border-border/50">
@@ -419,6 +548,47 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* ═══ SIGNAL ARCHIVE (Blog) ═══ */}
+      <section className="py-16 sm:py-20 px-4">
+        <div className="content-wide">
+          <motion.div className="text-center mb-10" {...fadeUp()}>
+            <p className="section-label mb-3">// SIGNAL ARCHIVE</p>
+            <h2 className="font-display text-xl sm:text-2xl md:text-[30px] tracking-wide mb-3">
+              FIELD <span className="text-primary">NOTES</span>
+            </h2>
+            <p className="text-muted-foreground font-body text-sm content-narrow mx-auto">
+              Playbooks, case logs, and signal scans — everything you need to stay sharp and ship faster.
+            </p>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {blogPosts.map((post, i) => (
+              <motion.div key={post.title}
+                className="glass-card p-5 sm:p-6 group hover:glow-subtle transition-all duration-300 flex flex-col"
+                {...fadeUp(i * 0.1)}>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className={`text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full border ${blogCategoryStyles[post.category]}`}>
+                    {post.category}
+                  </span>
+                </div>
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                  <post.icon className="text-primary" size={18} />
+                </div>
+                <h3 className="font-display text-sm tracking-wide mb-2 text-foreground group-hover:text-primary transition-colors leading-snug">
+                  {post.title}
+                </h3>
+                <p className="text-muted-foreground text-xs font-body leading-relaxed mb-4 flex-1">{post.summary}</p>
+                <span className="font-mono text-[11px] text-primary/70 tracking-wider group-hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
+                  OPEN LOG <ArrowRight size={11} />
+                </span>
+              </motion.div>
+            ))}
+          </div>
+          <motion.p className="text-center mt-6 font-mono text-xs text-muted-foreground tracking-wider" {...fadeUp(0.3)}>
+            More field notes coming soon. <span className="text-primary">Stay tuned.</span>
+          </motion.p>
+        </div>
+      </section>
+
       {/* ═══ ROADMAP ═══ */}
       <section className="py-16 sm:py-20 px-4">
         <div className="content-wide">
@@ -433,9 +603,7 @@ const HomePage = () => {
           </motion.div>
 
           <div className="relative">
-            {/* Progress line */}
             <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-border" />
-            {/* Lit portion of progress line */}
             <div className="absolute left-4 sm:left-6 top-0 w-px bg-primary/60"
               style={{ height: '25%' }} />
 
@@ -507,8 +675,11 @@ const HomePage = () => {
             <h2 className="font-display text-xl sm:text-2xl md:text-[28px] tracking-wide mb-4">
               READY TO <span className="text-primary">JOIN THE MISSION</span>?
             </h2>
-            <p className="text-muted-foreground font-body text-sm mb-8 max-w-md mx-auto">
+            <p className="text-muted-foreground font-body text-sm mb-4 max-w-md mx-auto">
               Whether you're shipping your first product or scaling your tenth, RYFIO is your command deck.
+            </p>
+            <p className="text-muted-foreground font-body text-xs mb-8 max-w-sm mx-auto">
+              Use RYFIO's platform and templates. Co‑build products with the team. Get help integrating AI into your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/join" onClick={sfx.click} onMouseEnter={sfx.hover}
