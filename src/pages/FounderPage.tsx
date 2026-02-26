@@ -22,8 +22,8 @@ const manifesto = [
 const stats = [
   { label: 'Products Shipped', value: '4+' },
   { label: 'Industries Targeted', value: '6' },
-  { label: 'Team Size', value: '1' },
-  { label: 'VC Funding', value: '₹0' },
+  { label: 'Team Size', value: '3' },
+  { label: 'VC Funding', value: '₹65k' },
 ];
 
 const FounderPage = () => (
