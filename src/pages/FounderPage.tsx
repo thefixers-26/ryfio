@@ -72,7 +72,7 @@ const FounderPage = () => (
           <span className="text-4xl sm:text-5xl">🚀</span>
         </div>
         <div className="text-left">
-          <h2 className="font-display text-lg sm:text-xl tracking-wide text-foreground mb-1">SATHISH KUMAR P</h2>
+          <h2 className="font-display text-lg sm:text-xl tracking-wide text-foreground mb-1">DINESH KUMAR M</h2>
           <p className="font-mono text-[11px] text-primary/70 tracking-wider mb-2">FOUNDER, RYFIO</p>
           <div className="flex items-center gap-2 text-muted-foreground text-sm font-body mb-3">
             <MapPin size={14} className="text-primary" />
