@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Rocket, Heart, Users, Globe, ArrowRight, MapPin, Code, Target } from 'lucide-react';
+import { Rocket, Heart, Users, Globe, ArrowRight, MapPin, Target, Github, Linkedin, Twitter, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sfx } from '@/hooks/useSfx';
 
@@ -23,7 +23,19 @@ const stats = [
   { label: 'Products Shipped', value: '4+' },
   { label: 'Industries Targeted', value: '6' },
   { label: 'Team Size', value: '3' },
-  { label: 'VC Funding', value: '₹65k' },
+  { label: 'VC Funding', value: '₹65k', note: 'Pre-seed, founder-led' },
+];
+
+const timeline = [
+  { year: '2024', event: 'Started RYFIO experiments in AI + manufacturing automation.' },
+  { year: '2025', event: 'Shipped first internal tools and pilots with solopreneurs.' },
+  { year: '2026', event: 'Launching RYFIO as a platform for solopreneur operations.' },
+];
+
+const socialLinks = [
+  { icon: Twitter, label: 'Twitter / X', href: 'https://twitter.com/ryfioai' },
+  { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/ryfio' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/ryfio' },
 ];
 
 const FounderPage = () => (
@@ -46,10 +58,10 @@ const FounderPage = () => (
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
-        The story behind RYFIO — why a solo founder from Coimbatore is building the future of solopreneur operations.
+        Solo founder from Coimbatore building the operating system for the next generation of AI-powered solopreneurs.
       </motion.p>
 
-      {/* Founder identity */}
+      {/* Founder identity card */}
       <motion.div
         className="glass-card p-6 sm:p-8 mb-8 flex flex-col sm:flex-row items-center gap-6"
         initial={{ opacity: 0, y: 30 }}
@@ -60,14 +72,28 @@ const FounderPage = () => (
           <span className="text-4xl sm:text-5xl">🚀</span>
         </div>
         <div className="text-left">
-          <h2 className="font-display text-lg sm:text-xl tracking-wide text-foreground mb-1">SOLO FOUNDER</h2>
+          <h2 className="font-display text-lg sm:text-xl tracking-wide text-foreground mb-1">SATHISH KUMAR P</h2>
+          <p className="font-mono text-[11px] text-primary/70 tracking-wider mb-2">FOUNDER, RYFIO</p>
           <div className="flex items-center gap-2 text-muted-foreground text-sm font-body mb-3">
             <MapPin size={14} className="text-primary" />
             <span>Coimbatore, Tamil Nadu, India</span>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <p className="text-muted-foreground text-sm font-body leading-relaxed mb-3">
+            Production engineer turned AI builder. Shipped 4+ products across AI, manufacturing, and SaaS — with zero VC dependency.
+          </p>
+          <div className="flex flex-wrap gap-2 mb-3">
             {['AI/ML', 'Manufacturing', 'SaaS', 'Full-Stack', 'Automation'].map(tag => (
               <span key={tag} className="tag-badge">{tag}</span>
+            ))}
+          </div>
+          {/* Social links */}
+          <div className="flex items-center gap-3">
+            {socialLinks.map(s => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center hover:bg-primary/20 hover:border-primary/40 transition-all"
+                title={s.label}>
+                <s.icon size={14} className="text-primary" />
+              </a>
             ))}
           </div>
         </div>
@@ -84,6 +110,7 @@ const FounderPage = () => (
           <div key={s.label} className="glass-card p-4 text-center">
             <p className="font-display text-xl sm:text-2xl font-bold text-primary">{s.value}</p>
             <p className="font-mono text-[10px] text-muted-foreground tracking-widest mt-1">{s.label.toUpperCase()}</p>
+            {s.note && <p className="font-mono text-[9px] text-primary/50 tracking-wider mt-0.5">{s.note}</p>}
           </div>
         ))}
       </motion.div>
@@ -148,6 +175,35 @@ const FounderPage = () => (
         </ul>
       </motion.div>
 
+      {/* Build Log / Timeline */}
+      <motion.div
+        className="glass-card p-6 sm:p-8 text-left mb-12"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+            <Calendar className="text-primary" size={18} />
+          </div>
+          <h3 className="font-display text-sm tracking-[0.15em]">BUILD LOG</h3>
+        </div>
+        <div className="relative pl-6 border-l border-border/50">
+          {timeline.map((t, i) => (
+            <div key={t.year} className={`relative pb-5 ${i === timeline.length - 1 ? 'pb-0' : ''}`}>
+              <div className={`absolute -left-[25px] w-3 h-3 rounded-full border-2 ${
+                i === timeline.length - 1
+                  ? 'border-primary bg-primary shadow-[0_0_8px_hsl(186_100%_56%_/_0.5)]'
+                  : 'border-primary/40 bg-primary/20'
+              }`} />
+              <p className="font-mono text-xs text-primary tracking-widest mb-1">{t.year}</p>
+              <p className="text-muted-foreground font-body text-sm leading-relaxed">{t.event}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
       {/* Manifesto */}
       <motion.p
         className="section-label mb-8"
@@ -177,7 +233,7 @@ const FounderPage = () => (
         ))}
       </div>
 
-      {/* CTA */}
+      {/* CTA — two distinct paths */}
       <motion.div
         className="glass-card p-6 sm:p-8 glow-subtle text-center"
         initial={{ opacity: 0, y: 20 }}
@@ -191,11 +247,11 @@ const FounderPage = () => (
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link to="/join" onClick={sfx.click} onMouseEnter={sfx.hover}
             className="btn-primary flex items-center gap-2 justify-center min-h-[48px]">
-            ENTER COMMAND DECK <ArrowRight size={16} />
+            JOIN AS BUILDER <ArrowRight size={16} />
           </Link>
           <Link to="/contact" onClick={sfx.click} onMouseEnter={sfx.hover}
             className="btn-secondary flex items-center gap-2 justify-center min-h-[48px]">
-            OPEN UPLINK
+            COLLAB AS SOLOPRENEUR
           </Link>
         </div>
       </motion.div>

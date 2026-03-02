@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, Users } from 'lucide-react';
+import { Send, CheckCircle, Users, Gift, Zap, Shield, FileText, UserCheck, MessageSquare, Rocket } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import { toast } from 'sonner';
 import { sfx } from '@/hooks/useSfx';
@@ -22,9 +22,50 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const roles = ['AI/ML Engineer', 'Full Stack Developer', 'Manufacturing Operations', 'Business Development', 'Design/Creative', 'Other'];
-const experiences = ['0-2 years', '3-5 years', '5+ years', 'Solopreneur/Freelancer'];
-const availabilities = ['Immediate', '1 month notice', '2-3 months', 'Exploring opportunities'];
+const roles = [
+  { value: 'AI/ML Engineer', label: 'AI/ML Engineer' },
+  { value: 'Full Stack Developer', label: 'Full Stack Developer' },
+  { value: 'Manufacturing Operations', label: 'Manufacturing Operations' },
+  { value: 'Business Development', label: 'Business Development' },
+  { value: 'Design/Creative', label: 'Design / Creative' },
+  { value: 'Community / Ops', label: 'Community / Ops' },
+  { value: 'Other', label: 'Other' },
+];
+
+const experiences = [
+  { value: 'Student / Fresher', label: 'Student / Fresher' },
+  { value: '0-2 years', label: '0–2 years' },
+  { value: '3-5 years', label: '3–5 years' },
+  { value: '5+ years', label: '5+ years' },
+  { value: 'Solopreneur/Freelancer', label: 'Solopreneur / Freelancer' },
+];
+
+const availabilities = [
+  { value: 'Immediate', label: 'Immediate', note: '0–2 weeks' },
+  { value: '1 month notice', label: '1 month notice', note: '~30 days' },
+  { value: '2-3 months', label: '2–3 months', note: 'Flexible start' },
+  { value: 'Exploring opportunities', label: 'Exploring', note: 'Just looking' },
+];
+
+const whatYouGet = [
+  { icon: Rocket, text: 'Build real products used by solopreneurs.' },
+  { icon: Users, text: 'Direct access to founder, zero bureaucracy.' },
+  { icon: Gift, text: 'Ship under your own name — build your portfolio & personal brand.' },
+  { icon: Zap, text: 'Potential ESOP / equity for long-term core contributors.' },
+];
+
+const recruitmentSteps = [
+  { step: '01', icon: Send, title: 'SUBMIT SIGNAL', desc: 'Fill this form — takes 3 minutes.' },
+  { step: '02', icon: UserCheck, title: 'FOUNDER REVIEW', desc: 'Reviewed within 72 hours.' },
+  { step: '03', icon: MessageSquare, title: 'ASYNC TASK / CALL', desc: 'Short task or intro call.' },
+  { step: '04', icon: Shield, title: 'TRIAL SPRINT', desc: 'Trial sprint, then core team invite.' },
+];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 20 } as const,
+  animate: { opacity: 1, y: 0 } as const,
+  transition: { delay, duration: 0.5 },
+});
 
 const JoinPage = () => {
   const [success, setSuccess] = useState(false);
@@ -61,46 +102,75 @@ const JoinPage = () => {
 
   return (
     <section className="min-h-screen py-20 sm:py-24 px-4">
-      <div className="max-w-2xl mx-auto text-center">
-        <motion.p className="section-header" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          // RECRUITMENT PROTOCOL
-        </motion.p>
-        <motion.h1
-          className="section-title mt-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          JOIN THE MISSION
-        </motion.h1>
-        <motion.p
-          className="text-muted-foreground mt-4 mb-8 font-body text-sm sm:text-base px-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          No data stored. Privacy-first transmission via EmailJS.
-        </motion.p>
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="text-center">
+          <motion.p className="section-label" {...fadeUp()}>// RECRUITMENT PROTOCOL</motion.p>
+          <motion.h1 className="section-title mt-4" {...fadeUp(0.15)}>JOIN THE MISSION</motion.h1>
+          <motion.p className="text-muted-foreground mt-4 mb-10 font-body text-sm sm:text-base px-2 content-narrow mx-auto" {...fadeUp(0.3)}>
+            We're assembling a small, focused crew of builders who want to ship real products for real solopreneurs. If you're tired of theory and want to build in public, this is your command deck.
+          </motion.p>
+        </div>
 
-        {/* Join the core team CTA */}
-        <motion.div
-          className="glass-card p-6 sm:p-8 mb-10 text-left glow-cyan"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
+        {/* Who we're looking for */}
+        <motion.div className="glass-card p-6 sm:p-8 mb-6" {...fadeUp(0.4)}>
           <div className="flex items-center gap-3 mb-4">
-            <Users className="text-primary" size={24} />
-            <h2 className="font-display text-sm sm:text-base tracking-[0.12em] text-primary">JOIN THE CORE TEAM</h2>
+            <Users className="text-primary" size={22} />
+            <h2 className="font-display text-sm sm:text-base tracking-[0.12em] text-primary">WHO WE'RE LOOKING FOR</h2>
           </div>
-          <p className="text-muted-foreground font-body text-sm leading-relaxed mb-3">
-            We're looking for early builders who believe in empowering solopreneurs — across AI, product, design, and community.
-          </p>
-          <p className="text-muted-foreground font-body text-sm leading-relaxed">
-            If you want to build RYFIO with us (part‑time, internship, or co‑founder‑track), tell us who you are, what you've built, and how you want to help.
-          </p>
+          <ul className="space-y-2.5 text-muted-foreground font-body text-sm leading-relaxed">
+            <li className="flex items-start gap-2">
+              <span className="text-primary mt-0.5">▸</span>
+              Early builders obsessed with AI, manufacturing, and solopreneur tools.
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary mt-0.5">▸</span>
+              People comfortable with ambiguity, experimentation, and building in public.
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-primary mt-0.5">▸</span>
+              Part-time, remote-friendly; internships and co-founder-track roles open.
+            </li>
+          </ul>
         </motion.div>
 
+        {/* What you get */}
+        <motion.div className="glass-card p-6 sm:p-8 mb-6" {...fadeUp(0.5)}>
+          <div className="flex items-center gap-3 mb-4">
+            <Gift className="text-primary" size={22} />
+            <h2 className="font-display text-sm sm:text-base tracking-[0.12em] text-primary">WHAT YOU GET</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {whatYouGet.map(item => (
+              <div key={item.text} className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10">
+                <item.icon size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                <p className="text-muted-foreground font-body text-sm leading-relaxed">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Recruitment Protocol Steps */}
+        <motion.div className="glass-card p-6 sm:p-8 mb-10" {...fadeUp(0.6)}>
+          <div className="flex items-center gap-3 mb-5">
+            <FileText className="text-primary" size={22} />
+            <h2 className="font-display text-sm sm:text-base tracking-[0.12em] text-primary">RECRUITMENT PROTOCOL</h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {recruitmentSteps.map(s => (
+              <div key={s.step} className="text-center p-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-2">
+                  <s.icon size={16} className="text-primary" />
+                </div>
+                <p className="font-mono text-[10px] text-primary/60 tracking-widest mb-1">STEP {s.step}</p>
+                <p className="font-display text-[11px] tracking-wider text-foreground mb-1">{s.title}</p>
+                <p className="text-muted-foreground text-[10px] font-body leading-snug">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Success state */}
         <AnimatePresence>
           {success && (
             <motion.div
@@ -110,22 +180,23 @@ const JoinPage = () => {
               exit={{ opacity: 0, scale: 0.9 }}
             >
               <CheckCircle className="text-primary mx-auto mb-4" size={48} />
-              <h2 className="font-display text-lg sm:text-xl tracking-wider text-primary mb-2">TRANSMISSION COMPLETE</h2>
-              <p className="text-muted-foreground text-sm">✓ Application sent successfully</p>
-              <p className="text-muted-foreground text-sm">✓ Founder will review and contact you via email</p>
-              <p className="text-muted-foreground text-sm mt-2">No data stored. Privacy maintained.</p>
+              <h2 className="font-display text-lg sm:text-xl tracking-wider text-primary mb-2 text-center">TRANSMISSION COMPLETE</h2>
+              <p className="text-muted-foreground text-sm text-center">✓ Application sent successfully</p>
+              <p className="text-muted-foreground text-sm text-center">✓ Founder will review within 72 hours and contact you via email</p>
+              <p className="text-muted-foreground text-sm mt-2 text-center">No data stored. Privacy maintained.</p>
             </motion.div>
           )}
         </AnimatePresence>
 
+        {/* Form */}
         {!success && (
           <motion.form
             className="glass-card p-5 sm:p-8 text-left space-y-5 sm:space-y-6"
             onSubmit={handleSubmit(onSubmit)}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            {...fadeUp(0.7)}
           >
+            <p className="font-mono text-[10px] text-primary/60 tracking-widest text-center mb-2">▸ STEP 01 — SUBMIT SIGNAL</p>
+
             {/* Name */}
             <div>
               <label className="form-label">Full Name *</label>
@@ -136,7 +207,7 @@ const JoinPage = () => {
             {/* Mobile */}
             <div>
               <label className="form-label">Mobile Number *</label>
-              <input {...register('mobile')} className="form-input" placeholder="+91" />
+              <input {...register('mobile')} className="form-input" placeholder="+91 98765 43210" />
               {errors.mobile && <p className="text-destructive text-xs mt-1 font-mono">{errors.mobile.message}</p>}
             </div>
 
@@ -150,21 +221,22 @@ const JoinPage = () => {
             {/* Role */}
             <div>
               <label className="form-label">Role *</label>
+              <p className="text-muted-foreground text-[11px] font-body mb-2">Choose the role that best matches how you want to contribute.</p>
               <select {...register('role')} className="form-input">
                 <option value="">Select a role</option>
-                {roles.map(r => <option key={r} value={r}>{r}</option>)}
+                {roles.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
               </select>
               {errors.role && <p className="text-destructive text-xs mt-1 font-mono">{errors.role.message}</p>}
             </div>
 
             {/* Experience */}
             <div>
-              <label className="form-label">Experience *</label>
+              <label className="form-label">Experience Level *</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {experiences.map(e => (
-                  <label key={e} className="glass-card p-3 flex items-center gap-2 cursor-pointer hover:border-primary transition-colors">
-                    <input type="radio" value={e} {...register('experience')} className="accent-primary" />
-                    <span className="text-sm font-body text-foreground">{e}</span>
+                  <label key={e.value} className="glass-card p-3 flex items-center gap-2 cursor-pointer hover:border-primary transition-colors">
+                    <input type="radio" value={e.value} {...register('experience')} className="accent-primary" />
+                    <span className="text-sm font-body text-foreground">{e.label}</span>
                   </label>
                 ))}
               </div>
@@ -176,9 +248,12 @@ const JoinPage = () => {
               <label className="form-label">Availability *</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {availabilities.map(a => (
-                  <label key={a} className="glass-card p-3 flex items-center gap-2 cursor-pointer hover:border-primary transition-colors">
-                    <input type="radio" value={a} {...register('availability')} className="accent-primary" />
-                    <span className="text-sm font-body text-foreground">{a}</span>
+                  <label key={a.value} className="glass-card p-3 flex items-center gap-2 cursor-pointer hover:border-primary transition-colors">
+                    <input type="radio" value={a.value} {...register('availability')} className="accent-primary" />
+                    <div>
+                      <span className="text-sm font-body text-foreground">{a.label}</span>
+                      <span className="text-[10px] text-muted-foreground font-mono ml-2">({a.note})</span>
+                    </div>
                   </label>
                 ))}
               </div>
@@ -187,8 +262,9 @@ const JoinPage = () => {
 
             {/* Why RYFIO */}
             <div>
-              <label className="form-label">Why RYFIO? *</label>
-              <textarea {...register('message')} className="form-input min-h-[120px] resize-none" placeholder="Tell us why you want to join..." />
+              <label className="form-label">Why RYFIO and why you? *</label>
+              <p className="text-muted-foreground text-[11px] font-body mb-2">Share 3–5 lines about your story, motivation, and what you want to build.</p>
+              <textarea {...register('message')} className="form-input min-h-[120px] resize-none" placeholder="What excites you about building for solopreneurs? What have you shipped before?" />
               <div className="flex justify-between mt-1">
                 {errors.message && <p className="text-destructive text-xs font-mono">{errors.message.message}</p>}
                 <span className={`text-xs font-mono ml-auto ${messageLen > 500 ? 'text-destructive' : 'text-muted-foreground'}`}>
@@ -199,15 +275,15 @@ const JoinPage = () => {
 
             {/* Portfolio */}
             <div>
-              <label className="form-label">Portfolio / LinkedIn *</label>
-              <input {...register('portfolio')} className="form-input" placeholder="https://..." />
+              <label className="form-label">GitHub, Portfolio, or LinkedIn *</label>
+              <input {...register('portfolio')} className="form-input" placeholder="https://github.com/you or https://linkedin.com/in/you" />
               {errors.portfolio && <p className="text-destructive text-xs mt-1 font-mono">{errors.portfolio.message}</p>}
             </div>
 
             {/* Skills */}
             <div>
               <label className="form-label">Skills <span className="text-muted-foreground">(optional)</span></label>
-              <textarea {...register('skills')} className="form-input min-h-[80px] resize-none" placeholder="React, Python, ML..." />
+              <textarea {...register('skills')} className="form-input min-h-[80px] resize-none" placeholder="Tech, tools, and strengths (e.g., React, Python, Figma, community ops…)" />
             </div>
 
             <button
@@ -221,6 +297,11 @@ const JoinPage = () => {
                 <>SUBMIT APPLICATION <Send size={16} /></>
               )}
             </button>
+
+            <p className="text-muted-foreground text-[10px] font-mono text-center tracking-wider leading-relaxed">
+              No data stored. Privacy-first transmission via EmailJS.<br />
+              <span className="text-muted-foreground/70">Used only to contact you regarding RYFIO opportunities.</span>
+            </p>
           </motion.form>
         )}
       </div>
