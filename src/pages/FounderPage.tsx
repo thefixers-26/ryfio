@@ -33,9 +33,9 @@ const timeline = [
 ];
 
 const socialLinks = [
-  { icon: Twitter, label: 'Twitter / X', href: 'https://twitter.com/ryfioai' },
+  { icon: Twitter, label: 'Twitter / X', href: 'https://x.com/ryfioai' },
   { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com/company/ryfio' },
-  { icon: Github, label: 'GitHub', href: 'https://github.com/ryfio' },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/ryfio-ai' },
 ];
 
 const FounderPage = () => (

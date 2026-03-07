@@ -213,7 +213,7 @@ const ContactPage = () => {
                   <Instagram size={16} /> @ryfio.ai
                 </a>
                 <a
-                  href="https://twitter.com/ryfioai"
+                  href="https://x.com/ryfioai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="glass-card p-3 hover:glow-subtle transition-all flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-primary"
