@@ -236,6 +236,19 @@ const ContactPage = () => {
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </motion.div>
+
+            {/* Co-Build section */}
+            <motion.div className="glass-card p-5" {...fadeUp(1.0)}>
+              <h3 className="font-display text-xs tracking-[0.15em] mb-3">CO-BUILD WITH RYFIO</h3>
+              <p className="text-muted-foreground text-sm font-body leading-relaxed mb-3">
+                We partner with SMEs and solopreneurs to build AI-powered products. Revenue-share or fixed engagement models available.
+              </p>
+              <ul className="space-y-1.5 text-muted-foreground text-xs font-body">
+                <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span>Revenue-share: We build, you own, we share growth.</li>
+                <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span>Fixed build: Scoped AI product delivery in 4–8 weeks.</li>
+                <li className="flex items-start gap-2"><span className="text-primary mt-0.5">▸</span>Pilot sprint: 2-week proof-of-concept for your use case.</li>
+              </ul>
+            </motion.div>
           </div>
         </div>
       </div>
