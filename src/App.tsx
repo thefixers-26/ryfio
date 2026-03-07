@@ -7,11 +7,13 @@ import { AnimatePresence } from "framer-motion";
 import Layout from "./components/Layout";
 import PageTransition from "./components/PageTransition";
 import SplashScreen from "./components/SplashScreen";
+import FloatingCTA from "./components/FloatingCTA";
 import HomePage from "./pages/HomePage";
 import FounderPage from "./pages/FounderPage";
 import PillarsPage from "./pages/PillarsPage";
 import JoinPage from "./pages/JoinPage";
 import ContactPage from "./pages/ContactPage";
+import FieldNotesPage from "./pages/FieldNotesPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,7 @@ const AnimatedRoutes = () => {
         <Route path="/pillars" element={<PageTransition><PillarsPage /></PageTransition>} />
         <Route path="/join" element={<PageTransition><JoinPage /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+        <Route path="/field-notes" element={<PageTransition><FieldNotesPage /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
@@ -52,6 +55,7 @@ const App = () => {
           <Layout>
             <AnimatedRoutes />
           </Layout>
+          <FloatingCTA />
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

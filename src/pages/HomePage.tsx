@@ -4,10 +4,12 @@ import {
   ArrowRight, ChevronDown, Wrench, Users, Compass, Layers,
   Rocket, Zap, Globe, Flag, Gauge, Quote, Clock, UserCircle,
   Package, FileText, BookOpen, Radio, TrendingUp, Cpu, BadgeCheck, Sparkles,
+  Lightbulb, Mail,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sfx } from '@/hooks/useSfx';
 import { supabase } from '@/integrations/supabase/client';
+import { posts, tagStyles, tagLabels, type PostTag } from '@/data/posts';
 
 /* ── Fade-up viewport animation ── */
 const fadeUp = (delay = 0) => ({
@@ -130,52 +132,24 @@ const useCases = [
 /* ── Testimonials ── */
 const testimonials = [
   {
-    name: 'OPERATOR_01',
-    role: 'Solo SaaS Founder',
+    name: 'Solo SaaS Founder, Chennai',
+    role: 'Bootstrapped SaaS',
     text: 'RYFIO gave me the playbook I didn\'t know I needed. Shipped my first product in 3 weeks instead of 3 months.',
     avatar: '🚀',
   },
   {
-    name: 'OPERATOR_02',
-    role: 'AI Automation Builder',
+    name: 'AI Automation Builder, Bangalore',
+    role: 'Freelance → Product',
     text: 'The community and templates cut my research time in half. Finally felt like I wasn\'t building alone.',
     avatar: '⚡',
   },
   {
-    name: 'OPERATOR_03',
-    role: 'Industry 4.0 Consultant',
+    name: 'Industry 4.0 Consultant, Coimbatore',
+    role: 'Manufacturing + AI',
     text: 'Signal Scan pointed me to the exact market gap. My first paying client came from a use-case I would never have found solo.',
     avatar: '🎯',
   },
 ];
-
-/* ── Signal Archive (Blog) ── */
-const blogPosts = [
-  {
-    title: 'How to Ship an AI SaaS in 30 Days as a Solo Founder',
-    summary: 'A step-by-step playbook from idea validation to first paying customers — no team required.',
-    category: 'PLAYBOOK',
-    icon: BookOpen,
-  },
-  {
-    title: 'Inside RFQ AutoPilot: Building AI for Manufacturing',
-    summary: 'Deep dive into how a solo consultant automated an entire quoting pipeline with AI agents.',
-    category: 'CASE LOG',
-    icon: FileText,
-  },
-  {
-    title: 'AI Trends Q1 2026: What Solo Operators Should Watch',
-    summary: 'The latest shifts in LLMs, automation tooling, and Industry 4.0 — and what they mean for your next product.',
-    category: 'SIGNAL SCAN',
-    icon: Radio,
-  },
-];
-
-const blogCategoryStyles: Record<string, string> = {
-  PLAYBOOK: 'bg-primary/10 text-primary border-primary/30',
-  'CASE LOG': 'bg-accent/10 text-accent border-accent/30',
-  'SIGNAL SCAN': 'bg-secondary/15 text-secondary border-secondary/30',
-};
 
 /* ── Roadmap ── */
 const roadmapPhases = [
@@ -183,11 +157,15 @@ const roadmapPhases = [
     phase: 'PHASE 01', title: 'GENESIS', period: 'Q1 2026', icon: Rocket,
     items: ['Launch RYFIO platform MVP → first 100 operators onboarded', 'Release first AI workflow templates & playbooks', 'Establish founding community channels'],
     status: 'ACTIVE',
+    briefing: 'ship-ai-saas-30-days',
+    briefingTitle: 'How to Ship an AI SaaS in 30 Days',
   },
   {
     phase: 'PHASE 02', title: 'EXPANSION', period: 'Q2 2026', icon: Zap,
     items: ['AI-powered product ideation tools', 'Mentorship matching system', 'Community collaboration features'],
     status: 'PREP',
+    briefing: 'solo-operators-win-ai-2026',
+    briefingTitle: 'Where Solo Operators Can Still Win',
   },
   {
     phase: 'PHASE 03', title: 'CONVERGENCE', period: 'Q3–Q4 2026', icon: Globe,
@@ -207,6 +185,16 @@ const statusStyles: Record<string, string> = {
   PLANNED: 'bg-muted text-muted-foreground border-border',
 };
 
+const tagIcons: Record<PostTag, typeof BookOpen> = {
+  PLAYBOOK: BookOpen,
+  CASE_LOG: FileText,
+  SIGNAL_SCAN: Radio,
+  MINDSET: Lightbulb,
+};
+
+/* ── Waitlist segments ── */
+const waitlistSegments = ['Manufacturing', 'SaaS', 'Automation', 'Creator', 'Other'] as const;
+
 /* ══════════ COMPONENT ══════════ */
 
 const HomePage = () => {
@@ -214,8 +202,16 @@ const HomePage = () => {
   const [time, setTime] = useState('');
   const [visitorCount, setVisitorCount] = useState(0);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [waitlistEmail, setWaitlistEmail] = useState('');
+  const [waitlistSegment, setWaitlistSegment] = useState('');
+  const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const { count: animatedVisitors, ref: counterRef } = useCountUp(visitorCount, 2200);
   const fullText = 'Resilient Yield Fusion Intelligent Operations';
+
+  const latestPost = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+  const daysAgo = Math.floor((Date.now() - new Date(latestPost.date).getTime()) / (1000 * 60 * 60 * 24));
 
   // Real visitor counter
   useEffect(() => {
@@ -262,6 +258,29 @@ const HomePage = () => {
 
   const timeParts = time.split(':');
 
+  // Field notes for home — 2 featured + 2 latest
+  const sortedPosts = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const homePosts = sortedPosts.slice(0, 4);
+
+  const handleWaitlistSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!waitlistEmail) return;
+    setWaitlistSubmitted(true);
+    sfx.success();
+    setTimeout(() => setWaitlistSubmitted(false), 4000);
+    setWaitlistEmail('');
+    setWaitlistSegment('');
+  };
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    setNewsletterSubmitted(true);
+    sfx.success();
+    setTimeout(() => setNewsletterSubmitted(false), 4000);
+    setNewsletterEmail('');
+  };
+
   return (
     <>
       {/* ═══ HERO ═══ */}
@@ -300,14 +319,58 @@ const HomePage = () => {
           AS A SINGLE FOUNDER
         </motion.p>
 
-        <motion.p className="text-muted-foreground text-sm sm:text-base mb-8 font-body content-narrow px-4"
+        <motion.p className="text-muted-foreground text-sm sm:text-base mb-6 font-body content-narrow px-4"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7 }}>
-          For solo operators building AI‑driven products in manufacturing, SaaS, automation, and the creator economy.
+          RYFIO helps solopreneurs design, build, and scale AI‑powered operations — starting from India, built for the world.
         </motion.p>
+
+        {/* Mini waitlist capture */}
+        <motion.div className="w-full max-w-md px-4 mb-3"
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.9 }}>
+          {!waitlistSubmitted ? (
+            <form onSubmit={handleWaitlistSubmit} className="glass-card p-3 sm:p-4">
+              <p className="font-mono text-[10px] text-primary/70 tracking-widest mb-3 text-center">JOIN THE NEXT OPERATOR BATCH</p>
+              <div className="flex flex-col sm:flex-row gap-2 mb-2">
+                <input
+                  type="email"
+                  required
+                  value={waitlistEmail}
+                  onChange={e => setWaitlistEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="form-input !py-2.5 text-sm flex-1"
+                />
+                <button type="submit" className="btn-primary !px-5 !py-2.5 text-xs flex items-center gap-1.5 justify-center">
+                  JOIN <ArrowRight size={12} />
+                </button>
+              </div>
+              <div className="flex flex-wrap gap-1.5 justify-center">
+                {waitlistSegments.map(seg => (
+                  <button
+                    key={seg}
+                    type="button"
+                    onClick={() => setWaitlistSegment(seg)}
+                    className={`text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full border transition-all ${
+                      waitlistSegment === seg
+                        ? 'bg-primary/15 text-primary border-primary/40'
+                        : 'text-muted-foreground border-border hover:border-primary/30'
+                    }`}
+                  >
+                    {seg}
+                  </button>
+                ))}
+              </div>
+              <p className="text-muted-foreground/50 text-[9px] font-mono text-center mt-2">What are you building?</p>
+            </form>
+          ) : (
+            <div className="glass-card p-4 text-center glow-subtle">
+              <p className="text-primary font-mono text-xs tracking-wider">✓ YOU'RE IN — CHECK YOUR EMAIL</p>
+            </div>
+          )}
+        </motion.div>
 
         {/* CTAs */}
         <motion.div className="flex flex-col sm:flex-row gap-3 mb-3 w-full sm:w-auto px-4 sm:px-0"
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.9 }}>
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.1 }}>
           <Link to="/join" onClick={sfx.click} onMouseEnter={sfx.hover}
             className="btn-primary flex items-center gap-2 justify-center min-h-[48px] w-full sm:w-auto">
             ENTER COMMAND DECK <ArrowRight size={16} />
@@ -318,14 +381,9 @@ const HomePage = () => {
           </Link>
         </motion.div>
 
-        <motion.p className="text-muted-foreground text-xs font-mono tracking-wider mb-8"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.1 }}>
-          Apply to join the next operator batch
-        </motion.p>
-
         {/* Telemetry strip */}
-        <motion.div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 mb-8"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2 }}>
+        <motion.div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 mb-4"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.3 }}>
           <div ref={counterRef}
             className="glass-card px-5 py-3 flex items-center gap-3 transition-all duration-300 hover:glow-subtle">
             <span className="relative flex h-2.5 w-2.5">
@@ -350,6 +408,12 @@ const HomePage = () => {
             </span>
           </div>
         </motion.div>
+
+        {/* Activity ticker */}
+        <motion.p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-8"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}>
+          Last briefing: <span className="text-primary/70">"{latestPost.title}"</span> — updated {daysAgo === 0 ? 'today' : `${daysAgo}d ago`}
+        </motion.p>
 
         <motion.div className="absolute bottom-8" animate={{ y: [0, 8, 0] }} transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
           <ChevronDown className="text-muted-foreground/50" size={24} />
@@ -377,9 +441,23 @@ const HomePage = () => {
             <p className="text-muted-foreground font-body leading-relaxed mb-3 text-sm sm:text-base">
               <span className="text-primary font-semibold">RYFIO</span> (Resilient Yield Fusion Intelligent Operations) is a platform and community for solopreneurs who want to build serious, end‑to‑end AI products — not side projects — across manufacturing, SaaS, creator tools, automation, and Industry 4.0.
             </p>
-            <p className="text-muted-foreground font-body leading-relaxed text-sm sm:text-base">
+            <p className="text-muted-foreground font-body leading-relaxed text-sm sm:text-base mb-5">
               We give you the resources, playbooks, support, and a clear path from <span className="text-primary">idea → revenue</span>. Whether you're launching your first AI product or scaling your operations, RYFIO is your command deck.
             </p>
+            {/* What you get bullets */}
+            <div className="grid sm:grid-cols-2 gap-2.5">
+              {[
+                'AI products & agent blueprints',
+                'Launch templates & playbooks',
+                'Operator community access',
+                'Weekly briefings & trend scans',
+              ].map(item => (
+                <div key={item} className="flex items-center gap-2 text-sm font-body text-muted-foreground">
+                  <span className="text-primary text-xs">▸</span>
+                  {item}
+                </div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -432,20 +510,17 @@ const HomePage = () => {
               <motion.div key={p.name}
                 className="glass-card p-5 sm:p-6 group hover:glow-subtle transition-all duration-300 relative"
                 {...fadeUp(i * 0.08)}>
-                {/* New badge */}
                 {p.isNew && (
                   <span className="absolute top-3 right-3 flex items-center gap-1 bg-primary/15 text-primary text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full border border-primary/30">
                     <Sparkles size={10} /> NEW
                   </span>
                 )}
-                {/* Tags row */}
                 <div className="flex items-center gap-2 mb-3 flex-wrap">
                   <span className="tag-badge">{p.tag}</span>
                   <span className={`text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-full border ${productStatusStyles[p.status]}`}>
                     {p.status}
                   </span>
                 </div>
-                {/* Built by label */}
                 <p className="font-mono text-[10px] text-muted-foreground tracking-widest mb-1">
                   {p.builtBy === 'RYFIO' ? '▸ BUILT BY RYFIO' : '▸ BUILT WITH RYFIO'}
                 </p>
@@ -548,44 +623,75 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ═══ SIGNAL ARCHIVE (Blog) ═══ */}
+      {/* ═══ FIELD NOTES & AI BRIEFINGS ═══ */}
       <section className="py-16 sm:py-20 px-4">
         <div className="content-wide">
           <motion.div className="text-center mb-10" {...fadeUp()}>
-            <p className="section-label mb-3">// SIGNAL ARCHIVE</p>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <p className="section-label">// SIGNAL ARCHIVE</p>
+              <span className="bg-primary/15 text-primary text-[9px] font-mono tracking-wider px-2 py-0.5 rounded-full border border-primary/30 animate-pulse">
+                NEW
+              </span>
+            </div>
             <h2 className="font-display text-xl sm:text-2xl md:text-[30px] tracking-wide mb-3">
-              FIELD <span className="text-primary">NOTES</span>
+              FIELD NOTES & <span className="text-primary">AI BRIEFINGS</span>
             </h2>
             <p className="text-muted-foreground font-body text-sm content-narrow mx-auto">
               Playbooks, case logs, and signal scans — everything you need to stay sharp and ship faster.
             </p>
+            <p className="text-primary/50 font-mono text-[10px] tracking-wider mt-2">
+              Updated weekly — 1–2 new AI briefings for solo operators.
+            </p>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-4">
-            {blogPosts.map((post, i) => (
-              <motion.div key={post.title}
-                className="glass-card p-5 sm:p-6 group hover:glow-subtle transition-all duration-300 flex flex-col"
-                {...fadeUp(i * 0.1)}>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className={`text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full border ${blogCategoryStyles[post.category]}`}>
-                    {post.category}
-                  </span>
-                </div>
-                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
-                  <post.icon className="text-primary" size={18} />
-                </div>
-                <h3 className="font-display text-sm tracking-wide mb-2 text-foreground group-hover:text-primary transition-colors leading-snug">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground text-xs font-body leading-relaxed mb-4 flex-1">{post.summary}</p>
-                <span className="font-mono text-[11px] text-primary/70 tracking-wider group-hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
-                  OPEN LOG <ArrowRight size={11} />
-                </span>
-              </motion.div>
-            ))}
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {homePosts.map((post, i) => {
+              const Icon = tagIcons[post.tag];
+              return (
+                <motion.div key={post.slug}
+                  className="glass-card p-5 sm:p-6 group hover:glow-subtle transition-all duration-300 flex flex-col relative"
+                  {...fadeUp(i * 0.08)}>
+                  {post.featured && (
+                    <span className="absolute top-3 right-3 bg-primary/15 text-primary text-[9px] font-mono tracking-wider px-2 py-0.5 rounded-full border border-primary/30">
+                      ★ START HERE
+                    </span>
+                  )}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={`text-[10px] font-mono tracking-wider px-2.5 py-1 rounded-full border ${tagStyles[post.tag]}`}>
+                      {tagLabels[post.tag]}
+                    </span>
+                    <span className="text-muted-foreground text-[10px] font-mono flex items-center gap-1">
+                      <Clock size={9} /> {post.readTime}
+                    </span>
+                  </div>
+                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                    <Icon className="text-primary" size={18} />
+                  </div>
+                  <h3 className="font-display text-sm tracking-wide mb-2 text-foreground group-hover:text-primary transition-colors leading-snug">
+                    {post.title}
+                  </h3>
+                  <p className="text-muted-foreground text-xs font-body leading-relaxed mb-4 flex-1">{post.summary}</p>
+                  <div className="space-y-1.5 pt-2 border-t border-border/50">
+                    <span className="font-mono text-[11px] text-primary/70 tracking-wider group-hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
+                      READ BRIEFING <ArrowRight size={11} />
+                    </span>
+                    {post.relatedProduct && (
+                      <span className="font-mono text-[10px] text-muted-foreground/50 tracking-wider block">
+                        Next step: {post.relatedProduct}
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
-          <motion.p className="text-center mt-6 font-mono text-xs text-muted-foreground tracking-wider" {...fadeUp(0.3)}>
-            More field notes coming soon. <span className="text-primary">Stay tuned.</span>
-          </motion.p>
+
+          <motion.div className="text-center mt-6" {...fadeUp(0.3)}>
+            <Link to="/field-notes" onClick={sfx.click} onMouseEnter={sfx.hover}
+              className="text-primary font-mono text-xs tracking-widest hover:underline inline-flex items-center gap-1">
+              VIEW ALL BRIEFINGS <ArrowRight size={12} />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
@@ -642,6 +748,15 @@ const HomePage = () => {
                         </li>
                       ))}
                     </ul>
+                    {/* Recommended briefing */}
+                    {phase.briefing && (
+                      <div className="mt-3 ml-0 sm:ml-8 flex items-center gap-1.5">
+                        <BookOpen size={11} className="text-primary/50" />
+                        <Link to="/field-notes" className="font-mono text-[10px] text-primary/50 tracking-wider hover:text-primary transition-colors">
+                          Related: {phase.briefingTitle}
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -655,13 +770,49 @@ const HomePage = () => {
         <div className="content-narrow text-center">
           <motion.div {...fadeUp()}>
             <p className="section-label mb-3">// FOUNDER TRANSMISSION</p>
-            <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
+            <p className="text-muted-foreground font-body text-sm leading-relaxed mb-2">
               RYFIO is being built in public from Coimbatore, India. We believe every solopreneur deserves the same firepower as a funded startup.
+            </p>
+            <p className="text-muted-foreground/60 font-mono text-[10px] tracking-wider mb-4">
+              Built in public from Coimbatore, TN — From India to the world 🇮🇳
             </p>
             <Link to="/founder" onClick={sfx.click} onMouseEnter={sfx.hover}
               className="text-primary font-mono text-xs tracking-widest hover:underline inline-flex items-center gap-1">
               READ THE FOUNDER'S LOG <ArrowRight size={12} />
             </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ NEWSLETTER ═══ */}
+      <section className="py-10 px-4">
+        <div className="content-narrow">
+          <motion.div className="glass-card p-6 sm:p-8 text-center" {...fadeUp()}>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Mail size={16} className="text-primary" />
+              <p className="section-label">RYFIO SIGNAL</p>
+            </div>
+            <p className="text-muted-foreground font-body text-sm mb-4 max-w-md mx-auto">
+              Weekly briefings for solo operators — playbooks, trend scans, and operator dispatches. No spam, just ops and AI.
+            </p>
+            {!newsletterSubmitted ? (
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto">
+                <input
+                  type="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={e => setNewsletterEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="form-input !py-2.5 text-sm flex-1"
+                />
+                <button type="submit" className="btn-primary !px-5 !py-2.5 text-xs">
+                  SUBSCRIBE
+                </button>
+              </form>
+            ) : (
+              <p className="text-primary font-mono text-xs tracking-wider">✓ SUBSCRIBED — FIRST DISPATCH INCOMING</p>
+            )}
+            <p className="text-muted-foreground/40 font-mono text-[9px] mt-2 tracking-wider">Max 1–2 emails per month</p>
           </motion.div>
         </div>
       </section>
@@ -678,10 +829,10 @@ const HomePage = () => {
             <p className="text-muted-foreground font-body text-sm mb-4 max-w-md mx-auto">
               Whether you're shipping your first product or scaling your tenth, RYFIO is your command deck.
             </p>
-            <p className="text-muted-foreground font-body text-xs mb-8 max-w-sm mx-auto">
+            <p className="text-muted-foreground font-body text-xs mb-6 max-w-sm mx-auto">
               Use RYFIO's platform and templates. Co‑build products with the team. Get help integrating AI into your business.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
               <Link to="/join" onClick={sfx.click} onMouseEnter={sfx.hover}
                 className="btn-primary flex items-center gap-2 justify-center min-h-[48px]">
                 ENTER COMMAND DECK <ArrowRight size={16} />
@@ -691,6 +842,9 @@ const HomePage = () => {
                 OPEN UPLINK
               </Link>
             </div>
+            <p className="text-muted-foreground/50 font-mono text-[10px] tracking-wider">
+              Prefer to lurk first? <Link to="/field-notes" className="text-primary hover:underline">Read this week's briefing</Link>
+            </p>
           </motion.div>
         </div>
       </section>

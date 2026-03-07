@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Instagram } from 'lucide-react';
+import { Menu, X, Instagram, Twitter, Github } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { sfx } from '@/hooks/useSfx';
 import ThemeToggle from './ThemeToggle';
@@ -9,6 +9,7 @@ const navItems = [
   { label: 'HOME', path: '/' },
   { label: 'FOUNDER', path: '/founder' },
   { label: 'PILLARS', path: '/pillars' },
+  { label: 'BRIEFINGS', path: '/field-notes', isNew: true },
   { label: 'JOIN', path: '/join' },
   { label: 'UPLINK', path: '/contact' },
 ];
@@ -30,31 +31,39 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-5 lg:gap-8">
+        <div className="hidden md:flex items-center gap-4 lg:gap-6">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               onClick={handleNav}
               onMouseEnter={sfx.hover}
-              className={`font-display text-xs tracking-[0.15em] transition-colors duration-300 ${
+              className={`font-display text-xs tracking-[0.15em] transition-colors duration-300 relative ${
                 location.pathname === item.path
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
               {item.label}
+              {item.isNew && (
+                <span className="absolute -top-2 -right-3 w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              )}
             </Link>
           ))}
-          <a
-            href="https://www.instagram.com/ryfio.ai/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onMouseEnter={sfx.hover}
-            className="text-muted-foreground hover:text-secondary transition-colors"
-          >
-            <Instagram size={18} />
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="https://x.com/ryfioai" target="_blank" rel="noopener noreferrer" onMouseEnter={sfx.hover}
+              className="text-muted-foreground hover:text-primary transition-colors">
+              <Twitter size={16} />
+            </a>
+            <a href="https://github.com/ryfio-ai" target="_blank" rel="noopener noreferrer" onMouseEnter={sfx.hover}
+              className="text-muted-foreground hover:text-primary transition-colors">
+              <Github size={16} />
+            </a>
+            <a href="https://www.instagram.com/ryfio.ai/" target="_blank" rel="noopener noreferrer" onMouseEnter={sfx.hover}
+              className="text-muted-foreground hover:text-primary transition-colors">
+              <Instagram size={16} />
+            </a>
+          </div>
           <ThemeToggle />
         </div>
 
@@ -82,23 +91,32 @@ const Navbar = () => {
                   key={item.path}
                   to={item.path}
                   onClick={handleNav}
-                  className={`block font-display text-sm tracking-[0.15em] py-3 px-2 rounded transition-colors ${
+                  className={`block font-display text-sm tracking-[0.15em] py-3 px-2 rounded transition-colors relative ${
                     location.pathname === item.path
                       ? 'text-primary bg-primary/10'
                       : 'text-muted-foreground active:bg-muted'
                   }`}
                 >
                   {item.label}
+                  {item.isNew && (
+                    <span className="ml-2 inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  )}
                 </Link>
               ))}
-              <a
-                href="https://www.instagram.com/ryfio.ai/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-muted-foreground text-sm font-display tracking-wider py-3 px-2"
-              >
-                <Instagram size={16} /> INSTAGRAM
-              </a>
+              <div className="flex items-center gap-3 py-3 px-2">
+                <a href="https://x.com/ryfioai" target="_blank" rel="noopener noreferrer"
+                  className="text-muted-foreground text-sm font-display tracking-wider flex items-center gap-2">
+                  <Twitter size={14} /> X
+                </a>
+                <a href="https://github.com/ryfio-ai" target="_blank" rel="noopener noreferrer"
+                  className="text-muted-foreground text-sm font-display tracking-wider flex items-center gap-2">
+                  <Github size={14} /> GITHUB
+                </a>
+                <a href="https://www.instagram.com/ryfio.ai/" target="_blank" rel="noopener noreferrer"
+                  className="text-muted-foreground text-sm font-display tracking-wider flex items-center gap-2">
+                  <Instagram size={14} /> IG
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
