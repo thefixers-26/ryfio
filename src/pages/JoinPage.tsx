@@ -305,6 +305,59 @@ const JoinPage = () => {
             </p>
           </motion.form>
         )}
+        {/* FAQ Section */}
+        <motion.div className="glass-card p-6 sm:p-8 mt-12" {...fadeUp(0.8)}>
+          <div className="flex items-center gap-3 mb-6">
+            <HelpCircle className="text-primary" size={22} />
+            <h2 className="font-display text-base sm:text-lg tracking-[0.12em] text-primary">FREQUENTLY ASKED</h2>
+          </div>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="paid" className="border-primary/10">
+              <AccordionTrigger className="font-display text-base sm:text-lg tracking-wide text-foreground hover:text-primary hover:no-underline py-5">
+                Is this paid?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground font-body text-base sm:text-lg leading-relaxed pb-5">
+                Early contributors work on a <span className="text-primary font-semibold">project-based or equity-track</span> model — not a traditional salary. 
+                Core team members who stay through the trial sprint are offered ESOP / revenue-share arrangements. 
+                Think of it as co-building a company, not joining one.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="parttime" className="border-primary/10">
+              <AccordionTrigger className="font-display text-base sm:text-lg tracking-wide text-foreground hover:text-primary hover:no-underline py-5">
+                Can I join part-time while studying or working?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground font-body text-base sm:text-lg leading-relaxed pb-5">
+                <span className="text-primary font-semibold">Absolutely.</span> Most of our early crew are students, freelancers, or people with day jobs. 
+                We value <span className="text-primary">consistent output over clocked hours</span> — 10–15 hrs/week of focused shipping beats 40 hrs of meetings. 
+                Internship-track roles are also available for students.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="remote" className="border-primary/10">
+              <AccordionTrigger className="font-display text-base sm:text-lg tracking-wide text-foreground hover:text-primary hover:no-underline py-5">
+                Do you accept remote collaborators outside India?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground font-body text-base sm:text-lg leading-relaxed pb-5">
+                <span className="text-primary font-semibold">Yes — RYFIO is fully remote.</span> We're built in Coimbatore but designed for the world. 
+                All you need is a reliable internet connection, async communication skills, and the drive to ship. 
+                We work across time zones with a bias toward IST overlap for syncs.
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="stack" className="border-primary/10">
+              <AccordionTrigger className="font-display text-base sm:text-lg tracking-wide text-foreground hover:text-primary hover:no-underline py-5">
+                What tech stack does RYFIO use?
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground font-body text-base sm:text-lg leading-relaxed pb-5">
+                Our core stack includes <span className="text-primary font-semibold">React, TypeScript, Tailwind CSS, Supabase, and Python</span> for AI/ML pipelines. 
+                We also use <span className="text-primary">Framer Motion</span> for UI, <span className="text-primary">OpenAI / Gemini APIs</span> for agent workflows, 
+                and various automation tools like Make and n8n. We pick the right tool for each product — no dogma, just results.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </motion.div>
+
       </div>
     </section>
   );
