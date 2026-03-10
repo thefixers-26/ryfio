@@ -31,6 +31,8 @@ const AnimatedRoutes = () => {
         <Route path="/join" element={<PageTransition><JoinPage /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
         <Route path="/field-notes" element={<PageTransition><FieldNotesPage /></PageTransition>} />
+        <Route path="/field-notes/:slug" element={<PageTransition><PostPage /></PageTransition>} />
+        <Route path="/command-deck" element={<PageTransition><CommandDeckPage /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
