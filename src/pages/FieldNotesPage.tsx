@@ -64,9 +64,10 @@ const FieldNotesPage = () => {
             <h2 className="font-display text-base sm:text-lg tracking-wide text-foreground mb-2">{featured.title}</h2>
             <p className="text-muted-foreground text-sm font-body leading-relaxed mb-3">{featured.summary}</p>
             <div className="flex items-center gap-4">
-              <span className="font-mono text-[11px] text-primary/70 tracking-wider flex items-center gap-1 cursor-pointer hover:text-primary transition-colors">
+              <Link to={`/field-notes/${featured.slug}`} onClick={sfx.click}
+                className="font-mono text-[11px] text-primary/70 tracking-wider flex items-center gap-1 hover:text-primary transition-colors">
                 READ BRIEFING <ArrowRight size={11} />
-              </span>
+              </Link>
               <span className="font-mono text-[11px] text-muted-foreground/60">
                 {new Date(featured.date).toLocaleDateString('en-IN', { month: 'short', day: '2-digit', year: 'numeric' })}
               </span>
@@ -132,9 +133,10 @@ const FieldNotesPage = () => {
                     </h3>
                     <p className="text-muted-foreground text-xs sm:text-sm font-body leading-relaxed mb-3">{post.summary}</p>
                     <div className="flex items-center gap-4">
-                      <span className="font-mono text-[11px] text-primary/70 tracking-wider group-hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
+                      <Link to={`/field-notes/${post.slug}`} onClick={sfx.click}
+                        className="font-mono text-[11px] text-primary/70 tracking-wider group-hover:text-primary transition-colors flex items-center gap-1">
                         READ BRIEFING <ArrowRight size={11} />
-                      </span>
+                      </Link>
                       {post.relatedProduct && (
                         <span className="font-mono text-[10px] text-muted-foreground/60 tracking-wider">
                           → {post.relatedProduct}
