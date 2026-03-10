@@ -14,6 +14,8 @@ import PillarsPage from "./pages/PillarsPage";
 import JoinPage from "./pages/JoinPage";
 import ContactPage from "./pages/ContactPage";
 import FieldNotesPage from "./pages/FieldNotesPage";
+import PostPage from "./pages/PostPage";
+import CommandDeckPage from "./pages/CommandDeckPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
